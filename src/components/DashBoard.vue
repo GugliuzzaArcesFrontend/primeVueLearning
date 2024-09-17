@@ -34,6 +34,8 @@
     </div>
 </template>
 
+
+
 <script>
 import Card from 'primevue/card';
 import Chart from 'primevue/chart';
