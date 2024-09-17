@@ -1,16 +1,5 @@
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
-
 <template>
-  <div>
+  <!-- <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
     </a>
@@ -18,20 +7,43 @@ export default {
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
-  <HelloWorld msg="Vite + Vue" />
+  <HelloWorld msg="Vite + Vue" /> -->
+  <!-- Carousel>
+  <template #item="slotProps">
+
+  </template>
+</Carousel> -->
+  <!-- <div>
+    <Card style="width:50%; display: inline-block;">
+      <template #title>Grafico 1</template>
+      <template #content>
+        <Chart :type="chart1.type" :data="chart1.data" :options="chart1.options" />
+      </template>
+    </Card>
+
+    <Card style="width:50%; display: inline-block;">
+      <template #title>Grafico 2</template>
+      <template #content>
+        <ChartTest :type="chart2.type" :data="chart2.data" :options="chart2.options" />
+      </template>
+    </Card>
+  </div> -->
+  <DashBoard class="dashboard" />
 </template>
 
+<script>
+
+import DashBoard from './components/DashBoard.vue';
+
+export default {
+  name: 'App',
+  components: {
+    DashBoard,
+  },
+  
+}
+</script>
+
 <style scoped>
-/* .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-} */
+
 </style>
