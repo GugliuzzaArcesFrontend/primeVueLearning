@@ -8,27 +8,8 @@
     </a>
   </div>
   <HelloWorld msg="Vite + Vue" /> -->
-  <!-- Carousel>
-  <template #item="slotProps">
 
-  </template>
-</Carousel> -->
-  <!-- <div>
-    <Card style="width:50%; display: inline-block;">
-      <template #title>Grafico 1</template>
-      <template #content>
-        <Chart :type="chart1.type" :data="chart1.data" :options="chart1.options" />
-      </template>
-    </Card>
-
-    <Card style="width:50%; display: inline-block;">
-      <template #title>Grafico 2</template>
-      <template #content>
-        <ChartTest :type="chart2.type" :data="chart2.data" :options="chart2.options" />
-      </template>
-    </Card>
-  </div> -->
-  <DashBoard class="dashboard" />
+  <DashBoard />
 </template>
 
 <script>

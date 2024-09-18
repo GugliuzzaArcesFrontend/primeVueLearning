@@ -61,14 +61,14 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+}*/
 *{
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-} */
+}
  
-/* #app {
+#app {
   width: 100vw;
   height: 100vh;
   padding: 2rem;
@@ -82,4 +82,3 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
- */

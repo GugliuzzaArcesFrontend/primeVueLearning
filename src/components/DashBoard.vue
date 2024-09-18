@@ -1,21 +1,27 @@
 <template>
     <div class="dashboard">
-        <Card style="justify-items: center">
+        <Card class="charting-card">
             <template #title>
-                <Paginator :totalRecords="charts.length" :rows="rowsPerPage" :first="first" @page="onPageChange"
-                    :template="paginatorTemplate" /><!-- :template="templateResponsive" -->
+                <Paginator :totalRecords="charts.length" :rows="chartsPerPage" :first="first" @page="onPageChange"
+                    :template="paginatorTemplate" />
             </template>
 
             <template #content>
                 <Card v-for="(chart, i) in paginatedChart" class="custom-card" :key="i" :id="`chart${i + 1}`">
-                    <template #title>Grafico {{ first + 1 }}</template>
+                    <template #title>GGrafico {{ first + 1 }}</template>
 
-                    <template #content>
-                        <Chart class="custom-chart" :type="chart.type" :data="chart.data" :options="chart.options" />
+                    <template #content><!--  -->
+                        <Chart class="custom-chart" :height="200" :type="chart.type" :data="chart.data"
+                            :options="chart.options" />
                     </template>
                 </Card>
             </template>
         </Card>
+        <CheckList>
+        </CheckList>
+        <!-- <Card class="checklist-card">
+            <template #title>Checklist</template>
+        </Card> -->
     </div>
 </template>
 
@@ -27,6 +33,7 @@ import chart2 from '../assets/chart2';
 import chart3 from '../assets/chart3';
 import chart4 from '../assets/chart4';
 import Paginator from 'primevue/paginator';
+import CheckList from './CheckList.vue';
 
 export default {
     name: 'DashBoard',
@@ -34,68 +41,74 @@ export default {
         Card,
         Chart,
         Paginator,
+        CheckList,
     },
     data() {
         return {
-            charts: [chart1, chart2, chart3, chart4],
             first: 0,
-            rowsPerPage: 1,
-            templateResponsive: {
-                type: Object,
-                default: () => (
-                    {
-                        default: 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink',
-                        '360px': 'PrevPageLink NextPageLink',
-                        '740px': 'PrevPageLink PageLinks NextPageLink '
-                    }
-                )
-            }
+            chartsPerPage: 1,
+        }
+    },
+    props: {
+        charts: {
+            type: Array,
+            default: () => [chart1, chart2, chart3, chart4]
         }
     },
     computed: {
         paginatedChart() {
-            return this.charts.slice(this.first, this.first + this.rowsPerPage);
+            return this.charts.slice(this.first, this.first + this.chartsPerPage);
         },
-       
         paginatorTemplate() {
             const width = window.innerWidth
             if (width <= 360)
-                return 'PrevPageLink NextPageLink';
+                return 'PrevPageLink CurrentPageReport NextPageLink';
             else if (width <= 740)
-                    return 'PrevPageLink PageLinks NextPageLink';
+                return 'PrevPageLink PageLinks NextPageLink';
             else return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink';
         }
-    
-},
-methods: {
-    onPageChange(event) {
-        this.first = event.first;
+    },
+
+    methods: {
+        onPageChange(event) {
+            this.first = event.first;
+        }
     }
-}
 }
 </script>
 
 <style scoped>
-.custom-card {
-    margin: auto;
+.dashboard {
+    border: solid 1px lightgrey;
+    display: inline-flex;
+    width: 100%;
+    margin: auto
+}
+.charting-card {
     width: 66%;
-    border: 1px solid black;
-    border-radius: 10px;
+    margin: 10px;
+    padding: 0
+}
+
+.custom-card {
+    border-style: none !important;
+    margin: auto;
+    border-radius: 15px;
     aspect-ratio: 2;
     align-content: center;
     justify-items: center;
-    justify-self: center;
 }
-
+div+div {
+    margin-left: 0px
+}
 .custom-chart {
     display: inline-block;
     width: 100%;
-    justify-self: center;
+    height: auto;
 }
 
-.dashboard {
-    display: flexbox;
-    width: 100%;
-    margin: auto
+.checklist-card {
+    margin: 10px;
+    width: 33%;
 }
 </style>
