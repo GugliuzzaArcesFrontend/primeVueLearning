@@ -18,8 +18,8 @@
             </template>
         </Card>
 
-        <!-- <CheckList class="checklist-card">
-        </CheckList> -->
+        <CheckList class="checklist-card">
+        </CheckList>
     </div>
 </template>
 

@@ -14,7 +14,7 @@
 
 <script>
 
-/* import list from './assets/mock.json'; */
+import list from './assets/mock.json'; 
 import chart1 from './assets/chart1';
 import chart2 from './assets/chart2';
 import chart3 from './assets/chart3';
@@ -24,37 +24,36 @@ import DashBoard from './components/DashBoard.vue';
 
 export default {
   name: 'App',
+
   components: {
     DashBoard,
   },
   data(){
     return{
-      list:{
-        type:Array,
-        default: ()=>[]
-      }
+      
+      list:list
     }
   },
   provide() {
     return {
-      list: this.list,
+      list: list,
       chartsApp:[chart1, chart2, chart3, chart4]
     }
   },
-  mounted(){
+  /* mounted(){
     this.fetchList()
-  },
-  methods:{
-    async fetchList(){
+  }, */
+  /*methods:{
+     async fetchList(){
       try{
-        const response=await this.axios.get('http://localhost:6500/api/data');
-        this.list=response.data
+        const response=await this.$axios.get('http://localhost:6500/api/data');
+        this.list= response.data
       }
       catch(error){
         this.list='Mali forti iu arreri'
       }
     }
-  }
+  } */
 }
 </script>
 
