@@ -5,7 +5,7 @@
 
             <span>
                 <Paginator :totalRecords="list.length" :rows="itemsPerPage" :first="first" :template="paginatorTemplate"
-                    @page="onPageChange" :pageLinkSize="3" currentPageReportTemplate="of {totalPages}" />
+                    @page="onPageChange" :pageLinkSize="3" />
             </span>
         </template>
 
@@ -21,24 +21,23 @@
                         <label :for="`todoCheck${item.id}`"></label>
                     </div>
 
-                    <p class="task-description">{{ item.task }} </p>
-
-                    <Button text class="c-button" icon="pi pi-pencil" @click="editItem(item)"></Button>
-
-                    <Button text class="c-button" icon="pi pi-trash" @click="removeItem(i)">
-                    </Button>
+                    <span class="task-description">{{ item.task }} </span>
 
                     <Badge class="c-badge" :value="badgeText(item.dueDate, item.status)"
                         :severity="badgeColor(item.dueDate, item.status)">
                         <i class="bi bi-clock-fill"></i>
                         <span>{{ badgeText(item.dueDate, item.status) }}</span>
                     </Badge>
+
+                    <Button text class="c-button" icon="pi pi-trash" @click="removeItem(i)">
+                    </Button>
+
+                    <Button text class="c-button" icon="pi pi-pencil" @click="editItem(item)"></Button>
                 </li>
             </ul>
         </template>
         <template #footer>
-            <Button class="open-dialog" severity="info" raised outline label="Aggiungi mansione" icon="pi pi-plus"
-                @click="showDialog = true"></Button>
+            <Button label="Aggiungi mansione" icon="pi pi-plus" @click="showDialog = true"></Button>
         </template>
     </Card>
     <Dialog v-model:visible="showDialog" modal class="c-dialog" :closable=false :dismissableMask=true>
@@ -69,6 +68,7 @@
 
 <script>
 import Button from 'primevue/button';
+
 import Badge from 'primevue/badge';
 import Card from 'primevue/card';
 import Dialog from 'primevue/dialog';
@@ -88,9 +88,10 @@ export default {
     inject: ['list'],
     data() {
         return {
-            innerWidth: window.innerWidth,
+            innerWidth: 0,
             showDialog: false,
             first: 0,
+            itemsPerPage: 10,
             listData: this.list,
             newItem: {
                 id: null,
@@ -111,12 +112,9 @@ export default {
     computed: {
         paginatedList() { return [...this.listData.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))].slice(this.first, this.first + this.itemsPerPage); },
         paginatorTemplate() {
-            if (this.innerWidth <= 576) return 'PrevPageLink JumpToPageInput NextPageLink';
+            if (this.innerWidth <= 576) return 'PrevPageLink JumpToPageDropdown NextPageLink';
             else return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink ';
         },
-        itemsPerPage(){
-            return this.innerWidth>740?10:5
-        }
     },
     methods: {
         onPageChange(event) {
@@ -150,7 +148,7 @@ export default {
         },
         addItem() {
             if (this.newItem.task.trim() === '' || this.newItem.dueDate === '') {
-                this.$toast.add({ severity: 'info', summary: 'Info', detail: 'Si prega di compilare tutti i campi', life: 2500 });
+                this.$toast.add({ severity: 'info', summary: 'Info', detail: 'Si prega di compilare tutti i campi', life: 3000 });
                 return;
             }
             if (this.editingItem) {
@@ -207,16 +205,18 @@ export default {
 
 .c-li {
     margin: auto;
-    margin-bottom: 2%;
+    margin-bottom: 1%;
     border: solid 1px lightgrey;
     border-radius: 5px;
     height: 30px;
     width: 100%;
-    display: flex;
-    align-items: center;
+    display: flexbox;
+    align-content: center;
+    /* justify-content: space-between; */
 }
 
 .c-li>i {
+    float: left;
     align-self: center;
 }
 
@@ -226,13 +226,13 @@ export default {
 
 .c-checkbox {
     display: inline;
+    float: left;
 }
 
 .task-description {
-    margin-right: auto;
-    min-width: auto;
     display: inline;
-    text-overflow: auto;
+    float: none;
+    overflow-y: hidden;
 }
 
 .done {
@@ -245,27 +245,20 @@ export default {
     height: 100%;
     width: 25%;
     display: inline;
-    margin-left: none;
+    float: right;
     overflow: hidden;
 }
 
 .c-button {
     display: none;
     width: 8%;
+    float: right;
     height: 100%;
 }
-
-/* .c-button:first-child{
-    margin-left: auto;
-} */
 
 .c-li:hover .c-button {
     display: inline-flex;
 }
-
-/* .c-li:hover .c-badge {
-    margin-left: none
-} */
 
 .dialog-input {
     margin-bottom: 20px;
@@ -278,13 +271,7 @@ export default {
     float: right;
 }
 
-.open-dialog {
-    float: inline-end;
-    max-width: 40%;
-    max-height: 50px;
-}
-
-@media (max-width: 741px) {
+@media (max-width: 740px) {
     .checklist-card {
         display: block;
         width: 100%;
@@ -292,19 +279,6 @@ export default {
 
     .c-button {
         display: block;
-    }
-
-    .open-dialog {
-        box-sizing: border-box;
-        width: 66%;
-    }
-
-    .task-description {
-        box-sizing: border-box;
-        width: 50% !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis;
-        white-space: nowrap;
     }
 }
 </style>
