@@ -3,7 +3,7 @@
         <Card class="charting-card">
             <template #title>
                 <Paginator :totalRecords="charts.length" :rows="chartsPerPage" :first="first" @page="onPageChange"
-                    :template="paginatorTemplate" :pageLinkSize="3"/>
+                    :template="paginatorTemplate" :pageLinkSize="3" currentPageReportTemplate="of {totalPages}"/>
             </template>
 
             <template #content>
@@ -44,7 +44,7 @@ export default {
     inject: ['chartsApp'],
     data() {
         return {
-            innerWidth: 0,
+            innerWidth: window.innerWidth,
             first: 0,
             chartsPerPage: 1,
             charts: this.chartsApp,
@@ -58,18 +58,20 @@ export default {
     },
     mounted() {
         window.addEventListener("resize", this.windowSize);
+        window.addEventListener("orientationchange", this.windowSize );
     },
     unmounted() {
         window.removeEventListener("resize", this.windowSize);
-    }, 
+        window.removeEventListener("orientationchange", this.windowSize)
+    },
     computed: {
         paginatedChart() {
             return this.charts.slice(this.first, this.first + this.chartsPerPage);
         },
         paginatorTemplate() {
             if (this.innerWidth <= 576)
-                return 'PrevPageLink JumpToPageDropdown NextPageLink';
-            else if (this.innerWidth <= 1200)
+                return 'PrevPageLink JumpToPageInput CurrentPageReport NextPageLink';
+            else if (this.innerWidth <= 1200 && this.innerWidth>576)
                 return 'PrevPageLink PageLinks NextPageLink';
             else return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageInput';
         },
@@ -80,7 +82,7 @@ export default {
             this.first = event.first;
         },
         windowSize() {
-            this.innerWidth=window.innerWidth
+            this.innerWidth = window.innerWidth;
         },
     }
 }
@@ -88,7 +90,8 @@ export default {
 
 <style scoped>
 .dashboard {
-    border: solid 1px lightgrey;
+    border: solid 1px rgba(200, 200, 200, 0.5);
+    border-radius: 10px;
     display: inline-flex;
     width: 100%;
     margin: auto
