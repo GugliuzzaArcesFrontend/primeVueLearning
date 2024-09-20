@@ -91,7 +91,7 @@ export default {
             innerWidth: window.innerWidth,
             showDialog: false,
             first: 0,
-            itemsPerPage: 10,
+            itemsPerPage: innerWidth>741?10:5,
             listData: this.list,
             newItem: {
                 id: null,
@@ -112,7 +112,7 @@ export default {
     computed: {
         paginatedList() { return [...this.listData.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))].slice(this.first, this.first + this.itemsPerPage); },
         paginatorTemplate() {
-            if (this.innerWidth <= 576) return 'PrevPageLink JumpToPageInput NextPageLink';
+            if (this.innerWidth <= 576) return 'PrevPageLink JumpToPageInput CurrentPageReport NextPageLink';
             else return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink ';
         },
     },
