@@ -9,11 +9,12 @@
   </div>
   <HelloWorld msg="Vite + Vue" /> -->
 
-  <DashBoard />
+  <DashBoard />{{ list }}
 </template>
 
 <script>
-import list from './assets/mock.json';
+
+/* import list from './assets/mock.json'; */
 import chart1 from './assets/chart1';
 import chart2 from './assets/chart2';
 import chart3 from './assets/chart3';
@@ -26,12 +27,34 @@ export default {
   components: {
     DashBoard,
   },
+  data(){
+    return{
+      list:{
+        type:Array,
+        default: ()=>[]
+      }
+    }
+  },
   provide() {
     return {
-      list: list,
+      list: this.list,
       chartsApp:[chart1, chart2, chart3, chart4]
     }
-  }  
+  },
+  mounted(){
+    this.fetchList()
+  },
+  methods:{
+    async fetchList(){
+      try{
+        const response=await this.axios.get('http://localhost:6500/api/data');
+        this.list=response.data
+      }
+      catch(error){
+        this.list='Mali forti iu arreri'
+      }
+    }
+  }
 }
 </script>
 

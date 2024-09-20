@@ -21,16 +21,17 @@
                         <label :for="`todoCheck${item.id}`"></label>
                     </div>
 
-                    <p class="task-description">{{ item.task }} </p>
+                    <span class="task-description">{{ item.task }} </span>
 
                     <Button text class="c-button" icon="pi pi-pencil" @click="editItem(item)"></Button>
 
-                    <Button text class="c-button" icon="pi pi-trash" @click="removeItem(i)">
+                    <Button text class="c-button" icon="pi pi-trash" @click="removeItem(item.id)">
                     </Button>
 
                     <Badge class="c-badge" :value="badgeText(item.dueDate, item.status)"
                         :severity="badgeColor(item.dueDate, item.status)">
-                        <i class="bi bi-clock-fill"></i>
+                        <i v-if="innerWidth > 500" class="bi bi-clock-fill"></i>
+
                         <span>{{ badgeText(item.dueDate, item.status) }}</span>
                     </Badge>
                 </li>
@@ -44,7 +45,7 @@
     <Dialog v-model:visible="showDialog" modal class="c-dialog" :closable=false :dismissableMask=true>
         <template #header>
             <h5 class="dialog-title">Nuova mansione</h5>
-            <Button icon="pi pi-times" class="dialog-close p-button-text p-button-danger "
+            <Button style="margin-left:auto" icon="pi pi-times" class="dialog-close p-button-text p-button-danger "
                 @click="showDialog = false" />
         </template>
 
@@ -61,25 +62,29 @@
             </div>
         </div>
         <template #footer>
-            <Button label="Annulla" class="dialog-cancel" @click="showDialog = false, resetNewItem" />
-            <Button label="Salva" severity="primary" @click="addItem" />
+            <ButtonGroup>
+                <Button label="Annulla" severity="danger" class="dialog-cancel" @click="showDialog = false, resetNewItem" />
+                <Button label="Salva" severity="success" @click="addItem" />
+            </ButtonGroup>
         </template>
     </Dialog>
 </template>
 
 <script>
-import Button from 'primevue/button';
 import Badge from 'primevue/badge';
+import Button from 'primevue/button';
+import ButtonGroup from 'primevue/buttongroup';
 import Card from 'primevue/card';
 import Dialog from 'primevue/dialog';
-import Toast from 'primevue/toast';
 import Paginator from 'primevue/paginator';
+import Toast from 'primevue/toast';
 
 export default {
     name: "CheckList",
     components: {
         Badge,
         Button,
+        ButtonGroup,
         Card,
         Dialog,
         Paginator,
@@ -91,7 +96,6 @@ export default {
             innerWidth: window.innerWidth,
             showDialog: false,
             first: 0,
-            itemsPerPage: innerWidth>741?10:5,
             listData: this.list,
             newItem: {
                 id: null,
@@ -115,6 +119,9 @@ export default {
             if (this.innerWidth <= 576) return 'PrevPageLink JumpToPageInput CurrentPageReport NextPageLink';
             else return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink ';
         },
+        itemsPerPage() {
+            return this.innerWidth > 741 ? 10 : 5
+        },
     },
     methods: {
         onPageChange(event) {
@@ -129,8 +136,7 @@ export default {
             if (dayDiff >= 3) return `${due}`;
             else if (dayDiff < 3 && dayDiff > 0)
                 // return `In scadenza (${due})`
-                return `In scadenza`
-                    ;
+                return this.innerWidth > 500 ? `${due} In scadenza` : `${due}`;
             else
                 // return `Scaduto (${-dayDiff} giorni)`
                 return `Scaduto`
@@ -178,8 +184,8 @@ export default {
             };
             this.editingItem = null;
         },
-        removeItem(i) {
-            this.listData.splice(i, 1);
+        removeItem(id) {
+            this.listData.splice(this.listData.findIndex(item => item.id == id), 1);
         },
         windowSize() {
             this.innerWidth = window.innerWidth;
@@ -234,9 +240,9 @@ export default {
 }
 
 .done {
-    text-decoration: line-through !important;
-    color: grey !important;
-    opacity: 0.5 !important;
+    text-decoration: line-through;
+    color: grey;
+    opacity: 0.5;
 }
 
 .c-badge {
@@ -245,6 +251,9 @@ export default {
     display: inline;
     margin-left: none;
     overflow: hidden;
+}
+.c-badge>span{
+    text-justify: center;
 }
 
 .c-button {

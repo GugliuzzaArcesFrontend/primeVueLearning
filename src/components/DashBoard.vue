@@ -18,8 +18,8 @@
             </template>
         </Card>
 
-        <CheckList class="checklist-card">
-        </CheckList>
+        <!-- <CheckList class="checklist-card">
+        </CheckList> -->
     </div>
 </template>
 
@@ -72,8 +72,8 @@ export default {
             if (this.innerWidth <= 576)
                 return 'PrevPageLink JumpToPageInput CurrentPageReport NextPageLink';
             else if (this.innerWidth <= 1200 && this.innerWidth>576)
-                return 'PrevPageLink PageLinks NextPageLink';
-            else return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageInput';
+                return ' FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink';
+            else return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageInput CurrentPageReport';
         },
     },
 
