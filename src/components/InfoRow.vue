@@ -34,12 +34,22 @@ export default {
 
 <style scoped>
 .info-row {
+    flex-wrap: wrap;
     display: flex;
     width: 100;
     justify-content: space-between;
 }
-/* 
-:deep(.c-smallbox) {
-    justify-self: auto;
-} */
+
+@media (max-width:360px) {
+    .info-row {
+        height: 15vh;
+    }
+}
+
+@media (max-width:741px) {
+    .info-row {
+        height: 30vh;
+        overflow-y: auto;
+    }
+}
 </style>

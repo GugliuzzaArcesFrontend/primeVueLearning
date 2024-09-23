@@ -4,8 +4,9 @@
             <span>Checklist</span>
 
             <span>
-                <Paginator :totalRecords="list.length" :rows="itemsPerPage" :first="first" :template="paginatorTemplate"
-                    @page="onPageChange" :pageLinkSize="linkSize" currentPageReportTemplate="of {totalPages}" />
+                <Paginator :totalRecords="listData.length" :rows="itemsPerPage" :first="first"
+                    :template="paginatorTemplate" @page="onPageChange" :pageLinkSize="linkSize"
+                    currentPageReportTemplate="of {totalPages}" />
             </span>
         </template>
 
@@ -42,7 +43,8 @@
                 @click="showDialog = true"></Button>
         </template>
     </Card>
-    <Dialog v-model:visible="showDialog" modal @hide="resetNewItem()" class="c-dialog" :closable=false :dismissableMask=true>
+    <Dialog v-model:visible="showDialog" modal @hide="resetNewItem()" class="c-dialog" :closable=false
+        :dismissableMask=true>
         <template #header>
             <h5 v-if="!editingItem" class="dialog-title">Nuova mansione</h5>
             <h5 v-else class="dialog-title">Aggiorna mansione</h5>
@@ -91,58 +93,44 @@ export default {
         Paginator,
         Toast,
     },
-    inject: ['list'],
     data() {
         return {
             innerWidth: window.innerWidth,
             showDialog: false,
             first: 0,
-            listData: this.list,
             editingItem: null,
             newItem: {
                 id: null,
                 task: '',
                 dueDate: '',
                 status: false
-            }
-        }
+            },
+            listData: []
+        }   
     },
-    props: {
+    beforeMount() {
+        this.fetchList();
     },
     mounted() {
         window.addEventListener("resize", this.windowSize);
-        window.addEventListener("orientationchange", this.windowSize );
+        window.addEventListener("orientationchange", this.windowSize);
     },
     unmounted() {
         window.removeEventListener("resize", this.windowSize);
         window.removeEventListener("orientationchange", this.windowSize);
     },
     computed: {
-        paginatedList() { 
+        paginatedList() {
             return [...this.listData.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))]
-            .slice(this.first, this.first + this.itemsPerPage); 
+                .slice(this.first, this.first + this.itemsPerPage);
         },
         paginatorTemplate() {
             if (this.innerWidth <= 576) return 'PrevPageLink JumpToPageInput CurrentPageReport NextPageLink';
             else return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink ';
         },
-        /**
-         * The number of items to display on each page of the checklist.
-         * 
-         * This is determined by the current window width.
-         * 
-         * @returns {Number} The number of items to display on each page.
-         */
         itemsPerPage() {
             return this.innerWidth > 741 ? 10 : 5
         },
-        /**
-         * The number of page links to display in the paginator.
-         * 
-         * This is determined by the current window width.
-         * 
-         * @returns {Number} The number of page links to display.
-         */
         linkSize() {
             if (this.innerWidth > 1400) return 5;
             if (this.innerWidth > 1200) return 3;
@@ -151,35 +139,45 @@ export default {
 
     },
     methods: {
+        async fetchList() {
+            try {
+                const response = await this.$axios.get('http://localhost:6500/api/checklist');
+                this.listData = response.data;
+            }
+            catch (error) {
+                this.listData = ['Mali forti iu arreri']
+            }
+        },
         onPageChange(event) {
             this.first = event.first;
         },
         badgeText(due, status) {
             const date = new Date();
             const dueDate = new Date(due);
-            const dayDiff = Math.ceil((dueDate.getTime() - date.getTime()) / (3600000 * 24));
+            const dayDiff = Math.ceil((dueDate.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
 
-            if (status) return ' Completato';
+            if (status) return 'Completato';
             if (dayDiff >= 3) return ` ${due}`;
             else if (dayDiff < 3 && dayDiff > 0)
                 // return `In scadenza (${due})`
-                return this.innerWidth > 500 ? ` ${due} In scadenza` : `${due}`;
+                return this.innerWidth > 500 ? ` ${due}\nIn scadenza` : `${due}`;
+            else if (dayDiff == 0) return ` Oggi`;
             else
-                // return `Scaduto (${-dayDiff} giorni)`
-                return ` Scaduto`
-                    ;
+                return this.innerWidth > 500 ? ` Scaduto\n(${-dayDiff} giorni fa)` : `Scaduto`
+            // return ` Scaduto`;
         },
         badgeColor(due, status) {
+            if (status) return 'secondary'
+
             const date = new Date();
             const dueDate = new Date(due);
-            const dayDiff = Math.ceil((dueDate.getTime() - date.getTime()) / (3600000 * 24));
+            const dayDiff = Math.ceil((dueDate.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
 
-            if (status) return 'secondary'
             if (dayDiff >= 3) return 'info'
             else if (dayDiff < 3 && dayDiff > 0) return 'warn'
             else return 'danger'
         },
-        addItem() {
+        async addItem() {
             if (this.newItem.task.trim() === '' || this.newItem.dueDate === '') {
                 this.$toast.add({ severity: 'info', summary: 'Info', detail: 'Si prega di compilare tutti i campi', life: 2500 });
                 return;
@@ -187,11 +185,17 @@ export default {
             if (this.editingItem) {
                 Object.assign(this.editingItem, this.newItem);
                 this.editingItem = null;
+                await this.$axios.post('http://localhost:6500/api/checklistAdd', this.newItem);
             }
             else {
                 this.newItem.id = this.listData.length + 1;
                 this.newItem.todo = `todo${this.listData.length + 1}`;
                 this.listData.push({ ...this.newItem });
+                let body = JSON.stringify(this.newItem);
+                console.log(body);
+                await this.$axios.post('http://localhost:6500/api/checklistAdd', this.newItem).then((response) => {
+                    console.log(response);
+                });
             }
             this.resetNewItem();
             this.showDialog = false;
@@ -278,6 +282,7 @@ export default {
     display: inline;
     margin-left: none;
     overflow: hidden;
+    white-space: pre-wrap;
 }
 
 /* .c-badge>span{

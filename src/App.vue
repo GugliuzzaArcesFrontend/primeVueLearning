@@ -1,21 +1,12 @@
 <template>
-  <!-- <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" /> -->
-
   <InfoRow style="margin-bottom: 10px"/>
+
   <DashBoard />
 </template>
 
 <script>
 
-import list from './assets/mock.json';
+
 import chart1 from './assets/chart1';
 import chart2 from './assets/chart2';
 import chart3 from './assets/chart3';
@@ -33,7 +24,6 @@ export default {
   },
   data() {
     return {
-      list: list,
       boxes: [
 
         {
@@ -69,25 +59,11 @@ export default {
   },
   provide() {
     return {
-      list: this.list,
       charts: [chart1, chart2, chart3, chart4],
       boxes: this.boxes
     }
   },
-  created() {
-    this.fetchList()
-  },
-  methods: {
-    async fetchList() {
-      try {
-        const response = await this.$axios.get('http://localhost:6500/api/checklist');
-        this.list = response.data
-      }
-      catch (error) {
-        this.list = 'Mali forti iu arreri'
-      }
-    }
-  }
+  methods: {}
 }
 </script>
 

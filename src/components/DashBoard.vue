@@ -1,6 +1,5 @@
 <template>
     <div class="dashboard">
-
         <Card class="charting-card">
             <template #title>
                 <Paginator :totalRecords="charts.length" :rows="chartsPerPage" :first="first" @page="onPageChange"

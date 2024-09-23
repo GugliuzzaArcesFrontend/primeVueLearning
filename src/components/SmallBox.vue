@@ -1,5 +1,5 @@
 <template>
-    <div class="c-smallbox" :class="[]">
+    <div class="c-smallbox" :class="[color]">
         <div class="box-body">
             <div class="box-content">
                 <h3>{{ value }}</h3>
@@ -24,7 +24,6 @@ export default {
     name: "SmallBox",
     data() {
         return {
-            isLoading: false
         }
     },
     props: {
@@ -38,7 +37,7 @@ export default {
         },
         color: {
             type: String,
-            default: "bg-primary"
+            default: "secondary" //trovare classi utility colore prime
         },
         sizes: {
             type: [String, Number, Array],
@@ -77,10 +76,11 @@ export default {
 
 <style scoped>
 .c-smallbox {
+    min-height: 100px;
     min-width: 20%;
-    /* display: inline-flex; */
     border: solid 1px rgba(200, 200, 200, 0.5);
     border-radius: 10px;
+    margin-bottom: .5rem
 }
 
 .box-body {
@@ -110,13 +110,25 @@ width: 20%;
 
 .box-footer {
     border-top: solid 1px rgba(200, 200, 200, 0.5);
-    display: block;
-    /* padding-bottom: 5px; */
+    display: block;    
     min-height: 20%;
+    color: red;
 }
 
 a{
     text-decoration: none;
-/*     font-size: 0.8rem; */
+}
+
+@media (max-width: 741px) {
+    .c-smallbox {
+        width: 50%;
+    }
+}
+
+@media (max-width: 361px) {
+    .c-smallbox {
+        width: 100%;
+        height: 50%;
+    }
 }
 </style>
