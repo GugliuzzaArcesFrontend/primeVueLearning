@@ -5,7 +5,7 @@
 
             <span>
                 <Paginator :totalRecords="list.length" :rows="itemsPerPage" :first="first" :template="paginatorTemplate"
-                    @page="onPageChange" :pageLinkSize="3" currentPageReportTemplate="of {totalPages}" />
+                    @page="onPageChange" :pageLinkSize="linkSize" currentPageReportTemplate="of {totalPages}" />
             </span>
         </template>
 
@@ -42,10 +42,11 @@
                 @click="showDialog = true"></Button>
         </template>
     </Card>
-    <Dialog v-model:visible="showDialog" modal class="c-dialog" :closable=false :dismissableMask=true>
+    <Dialog v-model:visible="showDialog" modal @hide="resetNewItem()" class="c-dialog" :closable=false :dismissableMask=true>
         <template #header>
-            <h5 class="dialog-title">Nuova mansione</h5>
-            <Button style="margin-left:auto" icon="pi pi-times" class="dialog-close p-button-text p-button-danger "
+            <h5 v-if="!editingItem" class="dialog-title">Nuova mansione</h5>
+            <h5 v-else class="dialog-title">Aggiorna mansione</h5>
+            <Button style="margin-left:auto" icon="pi pi-times" class="dialog-close p-button-text p-button-secondary"
                 @click="showDialog = false" />
         </template>
 
@@ -63,7 +64,7 @@
         </div>
         <template #footer>
             <ButtonGroup>
-                <Button label="Annulla" severity="danger" class="dialog-cancel" @click="showDialog = false, resetNewItem" />
+                <Button label="Annulla" severity="danger" class="dialog-cancel" @click="showDialog = false" />
                 <Button label="Salva" severity="success" @click="addItem" />
             </ButtonGroup>
         </template>
@@ -97,6 +98,7 @@ export default {
             showDialog: false,
             first: 0,
             listData: this.list,
+            editingItem: null,
             newItem: {
                 id: null,
                 task: '',
@@ -109,19 +111,44 @@ export default {
     },
     mounted() {
         window.addEventListener("resize", this.windowSize);
+        window.addEventListener("orientationchange", this.windowSize );
     },
     unmounted() {
         window.removeEventListener("resize", this.windowSize);
+        window.removeEventListener("orientationchange", this.windowSize);
     },
     computed: {
-        paginatedList() { return [...this.listData.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))].slice(this.first, this.first + this.itemsPerPage); },
+        paginatedList() { 
+            return [...this.listData.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))]
+            .slice(this.first, this.first + this.itemsPerPage); 
+        },
         paginatorTemplate() {
             if (this.innerWidth <= 576) return 'PrevPageLink JumpToPageInput CurrentPageReport NextPageLink';
             else return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink ';
         },
+        /**
+         * The number of items to display on each page of the checklist.
+         * 
+         * This is determined by the current window width.
+         * 
+         * @returns {Number} The number of items to display on each page.
+         */
         itemsPerPage() {
             return this.innerWidth > 741 ? 10 : 5
         },
+        /**
+         * The number of page links to display in the paginator.
+         * 
+         * This is determined by the current window width.
+         * 
+         * @returns {Number} The number of page links to display.
+         */
+        linkSize() {
+            if (this.innerWidth > 1400) return 5;
+            if (this.innerWidth > 1200) return 3;
+            else return 1;
+        }
+
     },
     methods: {
         onPageChange(event) {
@@ -132,14 +159,14 @@ export default {
             const dueDate = new Date(due);
             const dayDiff = Math.ceil((dueDate.getTime() - date.getTime()) / (3600000 * 24));
 
-            if (status) return 'Completato';
-            if (dayDiff >= 3) return `${due}`;
+            if (status) return ' Completato';
+            if (dayDiff >= 3) return ` ${due}`;
             else if (dayDiff < 3 && dayDiff > 0)
                 // return `In scadenza (${due})`
-                return this.innerWidth > 500 ? `${due} In scadenza` : `${due}`;
+                return this.innerWidth > 500 ? ` ${due} In scadenza` : `${due}`;
             else
                 // return `Scaduto (${-dayDiff} giorni)`
-                return `Scaduto`
+                return ` Scaduto`
                     ;
         },
         badgeColor(due, status) {
@@ -252,9 +279,10 @@ export default {
     margin-left: none;
     overflow: hidden;
 }
-.c-badge>span{
-    text-justify: center;
-}
+
+/* .c-badge>span{
+    text-justify:inter-word;
+} */
 
 .c-button {
     display: none;
@@ -262,17 +290,9 @@ export default {
     height: 100%;
 }
 
-/* .c-button:first-child{
-    margin-left: auto;
-} */
-
 .c-li:hover .c-button {
     display: inline-flex;
 }
-
-/* .c-li:hover .c-badge {
-    margin-left: none
-} */
 
 .dialog-input {
     margin-bottom: 20px;

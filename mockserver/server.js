@@ -18,7 +18,7 @@ const readJSONFile= (filepath)=>{
       });
 }
 //API
-app.get('/api/data', async (req, res) => {
+app.get('/api/checklist', async (req, res) => {
   try {
     const data = await readJSONFile('mock.json');
     res.json(data);
@@ -27,15 +27,6 @@ app.get('/api/data', async (req, res) => {
   }
 });
 
-app.get('api/checklist', async (req,res)=>{
-    try{
-
-
-    }
-    catch(error){
-
-    }
-})
 
 app.listen(port,()=>{console.log(`Server in ascolto, porta:${port}`);
 })

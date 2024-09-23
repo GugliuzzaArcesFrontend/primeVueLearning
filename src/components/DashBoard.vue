@@ -1,5 +1,6 @@
 <template>
     <div class="dashboard">
+
         <Card class="charting-card">
             <template #title>
                 <Paginator :totalRecords="charts.length" :rows="chartsPerPage" :first="first" @page="onPageChange"
@@ -8,7 +9,7 @@
 
             <template #content>
                 <Card v-for="(chart, i) in paginatedChart" class="custom-card" :key="i" :id="`chart${i + 1}`">
-                    <template #title>Grafico {{ first + 1 }}</template>
+                    <template #title>Grafico {{ i + 1 + first}}</template>
 
                     <template #content>
                         <Chart class="custom-chart" :height="200" :type="chart.type" :data="chart.data"
@@ -41,13 +42,12 @@ export default {
         Paginator,
         CheckList,
     },
-    inject: ['chartsApp'],
+    inject: ['charts'],
     data() {
         return {
             innerWidth: window.innerWidth,
             first: 0,
             chartsPerPage: 1,
-            charts: this.chartsApp,
         }
     },
     props: {
@@ -62,7 +62,7 @@ export default {
     },
     unmounted() {
         window.removeEventListener("resize", this.windowSize);
-        window.removeEventListener("orientationchange", this.windowSize)
+        window.removeEventListener("orientationchange", this.windowSize);
     },
     computed: {
         paginatedChart() {
