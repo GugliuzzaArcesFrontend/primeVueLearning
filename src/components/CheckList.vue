@@ -11,6 +11,7 @@
         </template>
 
         <template #content>
+            {{ listData }}
             <ul class="c-ul">
                 <li class="c-li" v-for="(item, i) in paginatedList" :class="{ 'done': item.status }" :key="i"
                     :id="`todo${i + 1}`">
@@ -71,6 +72,7 @@
             </ButtonGroup>
         </template>
     </Dialog>
+
 </template>
 
 <script>
@@ -105,10 +107,10 @@ export default {
                 dueDate: '',
                 status: false
             },
-            listData: []
-        }   
+            listData: [],
+        }
     },
-    beforeMount() {
+    created() {
         this.fetchList();
     },
     mounted() {
@@ -139,12 +141,13 @@ export default {
 
     },
     methods: {
-        async fetchList() {
+        fetchList() {
             try {
-                const response = await this.$axios.get('http://localhost:6500/api/checklist');
-                this.listData = response.data;
-            }
-            catch (error) {
+                this.$axios.get('http://localhost:6500/api/checklist')
+                    .then((response) => {
+                        this.listData = response.data;
+                    })
+            }catch (error) {
                 this.listData = ['Mali forti iu arreri']
             }
         },
