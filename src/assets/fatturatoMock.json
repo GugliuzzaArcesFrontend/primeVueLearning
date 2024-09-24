@@ -1,0 +1,44 @@
+{
+  "fatturato": [
+    { "mese": 1, "valore": 10000 },
+    { "mese": 2, "valore": 12000 },
+    { "mese": 3, "valore": 15000 },
+    { "mese": 4, "valore": 11000 },
+    { "mese": 5, "valore": 13000 },
+    { "mese": 6, "valore": 14000 },
+    { "mese": 7, "valore": 12500 },
+    { "mese": 8, "valore": 13500 },
+    { "mese": 9, "valore": 14500 },
+    { "mese": 10, "valore": 16000 },
+    { "mese": 11, "valore": 17000 },
+    { "mese": 12, "valore": 18000 }
+  ],
+  "stipendi": [
+    { "mese": 1, "valore": 5000 },
+    { "mese": 2, "valore": 5200 },
+    { "mese": 3, "valore": 5300 },
+    { "mese": 4, "valore": 5500 },
+    { "mese": 5, "valore": 5600 },
+    { "mese": 6, "valore": 5700 },
+    { "mese": 7, "valore": 5800 },
+    { "mese": 8, "valore": 5900 },
+    { "mese": 9, "valore": 6000 },
+    { "mese": 10, "valore": 6100 },
+    { "mese": 11, "valore": 6200 },
+    { "mese": 12, "valore": 6300 }
+  ],
+  "altreSpese": [
+    { "mese": 1, "valore": 2000 },
+    { "mese": 2, "valore": 2100 },
+    { "mese": 3, "valore": 2200 },
+    { "mese": 4, "valore": 2300 },
+    { "mese": 5, "valore": 2400 },
+    { "mese": 6, "valore": 2500 },
+    { "mese": 7, "valore": 2600 },
+    { "mese": 8, "valore": 2700 },
+    { "mese": 9, "valore": 2800 },
+    { "mese": 10, "valore": 2900 },
+    { "mese": 11, "valore": 3000 },
+    { "mese": 12, "valore": 3100 }
+  ]
+}

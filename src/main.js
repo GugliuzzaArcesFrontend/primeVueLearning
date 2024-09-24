@@ -21,6 +21,6 @@ app.mount('#app');
 
 app.config.globalProperties.window = window;
 app.config.globalProperties.$axios=axios;
-//app.config.globalProperties
+//app.config.globalProperties.
 
 

@@ -2,6 +2,8 @@
   <InfoRow style="margin-bottom: 10px"/>
 
   <DashBoard />
+
+  <Infobox v-for="(box, i) in boxes" :key="i + 1" :boxes="boxes" :value="box.value" :description="box.description" :linkDescription="box.linkDescription" :linkAddress="box.linkAddress" :icon="box.icon"/>
 </template>
 
 <script>
@@ -15,6 +17,7 @@ import chart5 from './assets/chart5';
 import chart6 from './assets/chart6';
 
 import DashBoard from './components/DashBoard.vue';
+import Infobox from './components/Infobox.vue';
 import InfoRow from './components/InfoRow.vue';
 
 export default {
@@ -22,6 +25,7 @@ export default {
   components: {
     DashBoard,
     InfoRow,
+    Infobox
   },
   data() {
     return {

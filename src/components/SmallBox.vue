@@ -111,12 +111,12 @@ width: 20%;
 .box-footer {
     border-top: solid 1px rgba(200, 200, 200, 0.5);
     display: block;    
-    min-height: 20%;
-    color: red;
+    min-height: 20%;    
 }
 
 a{
     text-decoration: none;
+    color: inherit;
 }
 
 @media (max-width: 741px) {

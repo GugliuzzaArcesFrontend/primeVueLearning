@@ -9,7 +9,7 @@
             <template #content>
                 <Card class="custom-card" :class="[{ 'w-100': innerWidth < 576, 'w-66': innerWidth >= 576 }]">
                     <!--  v-for="(chart, i) in paginatedChart" :key="i" :id="`chart${i + 1}`" -->
-                    <template #title>Grafico </template> <!-- {{ i + 1 + first}} -->
+                    <template #title>Report fatturato </template> <!-- {{ i + 1 + first}} -->
 
                     <template #content><!--  -->
                         <Chart class="custom-chart" :height="canvasSize" :type="charts[0].type" :data="charts[0].data"
@@ -18,7 +18,7 @@
                 </Card>
 
                 <Card class="custom-card" :class="[{ 'w-100': innerWidth < 576, 'w-33': innerWidth >= 576 }]">
-                    <template #title>Grafico </template>
+                    <template #title>Fidelizzazione clienti</template>
 
                     <template #content><!--  -->
                         <Chart class="custom-chart" :height="canvasSize" :type="charts[4].type" :data="charts[4].data"
@@ -29,15 +29,15 @@
                 <div class="w-100"></div>
                 
                 <Card class="custom-card" :class="[{ 'w-100': innerWidth < 741, 'w-50': innerWidth >= 741 }]">
-                    <template #title> Grafico </template>
+                    <template #title> Stao pratiche aperte </template>
                     <template #content><!--  -->
-                        <Chart class="custom-chart" :height="canvasSize" :type="charts[1].type" :data="charts[1].data"
-                            :options="charts[1].options" />
+                        <Chart class="custom-chart" :height="canvasSize" :type="charts[3].type" :data="charts[3].data"
+                            :options="charts[3].options" />
                     </template>
                 </Card>
 
                 <Card class="custom-card" :class="[{ 'w-100': innerWidth < 741, 'w-50': innerWidth >= 741 }]">
-                    <template #title> Grafico </template>
+                    <template #title> Tipologia clienti </template>
                     <template #content><!-- -->
                         <Chart class="custom-chart" :height="canvasSize" :type="charts[2].type" :data="charts[2].data"
                             :options="charts[2].options" />
