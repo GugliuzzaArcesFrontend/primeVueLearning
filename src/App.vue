@@ -19,7 +19,6 @@ import InfoRow from './components/InfoRow.vue';
 
 export default {
   name: 'App',
-
   components: {
     DashBoard,
     InfoRow,
@@ -27,7 +26,6 @@ export default {
   data() {
     return {
       boxes: [
-
         {
           "description": "Utenti Registrati",
           "value": 1200,

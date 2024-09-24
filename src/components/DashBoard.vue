@@ -1,15 +1,15 @@
 <template>
     <div class="dashboard">
-        <Card class="charting-card w-100">
+        <Card class="charting-card">
             <!-- <template #title>
                 <Paginator :totalRecords="charts.length" :rows="chartsPerPage" :first="first" @page="onPageChange"
                     :template="paginatorTemplate" :pageLinkSize="3" currentPageReportTemplate="of {totalPages}"/>
             </template> -->
 
             <template #content>
-                <Card class="custom-card" :class="[{'w-100': innerWidth < 576, 'w-66': innerWidth >= 576}]">
+                <Card class="custom-card" :class="[{ 'w-100': innerWidth < 576, 'w-66': innerWidth >= 576 }]">
                     <!--  v-for="(chart, i) in paginatedChart" :key="i" :id="`chart${i + 1}`" -->
-                    <!-- <template #title>Grafico </template> --> <!-- {{ i + 1 + first}} -->
+                    <template #title>Grafico </template> <!-- {{ i + 1 + first}} -->
 
                     <template #content><!--  -->
                         <Chart class="custom-chart" :height="canvasSize" :type="charts[0].type" :data="charts[0].data"
@@ -17,26 +17,29 @@
                     </template>
                 </Card>
 
-                <Card class="custom-card" :class="[{'w-100': innerWidth < 576,'w-33': innerWidth >= 576}]">
-                    <!-- <template #title>Grafico </template> -->
+                <Card class="custom-card" :class="[{ 'w-100': innerWidth < 576, 'w-33': innerWidth >= 576 }]">
+                    <template #title>Grafico </template>
+
                     <template #content><!--  -->
                         <Chart class="custom-chart" :height="canvasSize" :type="charts[4].type" :data="charts[4].data"
                             :options="charts[4].options" />
                     </template>
                 </Card>
 
-                <Card class="custom-card" :class="[{'w-100': innerWidth < 741, 'w-50': innerWidth >= 741}]">
-                    <!-- <template #title> Grafico </template> -->
+                <div class="w-100"></div>
+                
+                <Card class="custom-card" :class="[{ 'w-100': innerWidth < 741, 'w-50': innerWidth >= 741 }]">
+                    <template #title> Grafico </template>
                     <template #content><!--  -->
                         <Chart class="custom-chart" :height="canvasSize" :type="charts[1].type" :data="charts[1].data"
                             :options="charts[1].options" />
                     </template>
                 </Card>
 
-                <Card class="custom-card" :class="[{'w-100': innerWidth < 741, 'w-50': innerWidth >= 741}]">
-                    <!-- <template #title> Grafico </template> -->
+                <Card class="custom-card" :class="[{ 'w-100': innerWidth < 741, 'w-50': innerWidth >= 741 }]">
+                    <template #title> Grafico </template>
                     <template #content><!-- -->
-                        <Chart class="custom-chart" :height="canvasSize"  :type="charts[2].type" :data="charts[2].data"
+                        <Chart class="custom-chart" :height="canvasSize" :type="charts[2].type" :data="charts[2].data"
                             :options="charts[2].options" />
                     </template>
                 </Card>
@@ -49,15 +52,16 @@
 </template>
 
 <script>
-import Card from 'primevue/card';
-import Chart from 'primevue/chart';
 import chart1 from '../assets/chart1';
 import chart2 from '../assets/chart2';
 import chart3 from '../assets/chart3';
 import chart5 from '../assets/chart5';
 import chart6 from '../assets/chart6';
-import Paginator from 'primevue/paginator';
+
+import Card from 'primevue/card';
+import Chart from 'primevue/chart';
 import CheckList from './CheckList.vue';
+import Paginator from 'primevue/paginator';
 
 export default {
     name: 'DashBoard',
@@ -73,7 +77,6 @@ export default {
             innerWidth: window.innerWidth,
             first: 0,
             chartsPerPage: 1,
-            
         }
     },
     props: {
@@ -122,39 +125,43 @@ export default {
 </script>
 
 <style scoped>
-* {
+/* :deep(*) {
     box-sizing: border-box;
-}
+} */
 
 .w-100 {
     width: 97%;
 }
 
 .w-66 {
-    width: 63%;
+    width: calc(66% - .5rem);
 }
 
 .w-50 {
-    width: 47%;
+    width: calc(50% - .5rem);
 }
 
 .w-33 {
-    width: 30%;
+    width: calc(33% - .5rem);
 }
 
 .dashboard {
+    box-sizing: border-box;
     border: solid 1px rgba(200, 200, 200, 0.5);
     border-radius: 10px;
     display: inline-flex;
     width: 100%;
-    margin: auto
+    margin: 0;
+    padding: 0
 }
 
 .charting-card {
+    width: 100%;
     display: inline-flex;
     flex-wrap: wrap;
     align-content: stretch;
     align-items: stretch;
+    justify-content: space-between;
 }
 
 .custom-card {
