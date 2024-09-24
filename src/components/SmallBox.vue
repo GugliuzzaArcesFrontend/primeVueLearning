@@ -66,9 +66,9 @@ export default {
     },
     computed: {
         sizeClass() {
-            if (typeof this.sizes === 'object') return this.sizes.map(size => "col-" + size).join(" ")
-            else if (typeof this.sizes === "string" || typeof this.sizes === "number") return "col-" + this.sizes
-            else return "col"
+            if (Array.isArray(this.sizes)) return this.sizes.lenght?this.sizes.map(size => "col-" + size).join(" "):"col";
+            else if (typeof this.sizes === "string" || typeof this.sizes === "number") return "col-" + this.sizes;
+            else return "col";
         },
     },
 }

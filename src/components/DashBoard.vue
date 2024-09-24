@@ -10,7 +10,7 @@
                 <Card class="custom-card" :class="[{ 'w-100': innerWidth < 576, 'w-66': innerWidth >= 576 }]">
                     <!--  v-for="(chart, i) in paginatedChart" :key="i" :id="`chart${i + 1}`" -->
                     <template #title>Report fatturato </template> <!-- {{ i + 1 + first}} -->
-
+                
                     <template #content><!--  -->
                         <Chart class="custom-chart" :height="canvasSize" :type="charts[0].type" :data="charts[0].data"
                             :options="charts[0].options" />

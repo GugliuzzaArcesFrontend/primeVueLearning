@@ -1,6 +1,6 @@
 <template>
     <div class="c-info-box-container" :class="[sizeClass]">
-        <div class="c-info-box justify-content-between" :class="[isFull ? color : '']">
+        <div class="c-info-box" :class="[isFull ? color : '']">
             <span class="c-info-box-icon col-2" :class="[!isFull ? color : '']">
                 <i :class="[icon, iconColor]"></i>
             </span>
@@ -67,7 +67,7 @@ export default {
         },
         sizes: {
             type: [String, Number, Array],  //accetta un array di classi o una singola bootstrap, tolta la dicitura "col-", i.e.: ['11','sm-5','lg-3'],
-            default: ['11',]
+            default: []
         },
         maxValue: {
             default: 0
@@ -76,9 +76,12 @@ export default {
     },
     computed: {
         sizeClass() {
-            if (typeof this.sizes === 'object') return this.sizes.map(size => "col-" + size).join(" ")
-            else if (typeof this.sizes === "string" || typeof this.sizes === "number") return "col-" + this.sizes
-            else return "col"
+            if (Array.isArray(this.sizes))
+                return this.sizes.lenght ? this.sizes.map(size => "col-" + size).join(" ") : "col";
+            else if (typeof this.sizes === "string" || typeof this.sizes === "number")
+                return "col-" + this.sizes;
+            else
+                return "col";
         },
         progressBar() {
             return `${Math.floor(this.value / this.maxValue * 100)}%`
@@ -92,12 +95,13 @@ export default {
 </script>
 
 <style scoped>
-*{
-    display:inline-block;
+* {
+    display: inline-block;
 }
+
 .c-info-box-container {
-    width:auto;
-    margin:0;
+    width: auto;
+    margin: 0;
     margin-bottom: .5rem;
     display: flex;
     align-items: center;
@@ -105,19 +109,23 @@ export default {
     border-radius: 10px;
 }
 
-.c-info-box{
-width:fit-content;
-display: inline-flex;
+.c-info-box {
+    width: fit-content;
+    display: inline-flex;
+    justify-content: space-between;
 }
-.c-info-box-icon{
+
+.c-info-box-icon {
     display: inline-block;
 }
-.c-info-box-content{
+
+.c-info-box-content {
     display: inline-block;
     padding-left: 5%;
     text-align: left;
 }
-.c-info-box-progress{
+
+.c-info-box-progress {
     display: inline-block;
 }
 </style>

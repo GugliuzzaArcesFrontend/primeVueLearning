@@ -3,12 +3,12 @@
 
   <DashBoard />
 
-  <Infobox v-for="(box, i) in boxes" :key="i + 1" :boxes="boxes" :value="box.value" :description="box.description" :linkDescription="box.linkDescription" :linkAddress="box.linkAddress" :icon="box.icon"/>
+  <Infobox v-for="(box, i) in infos" :key="i + 1" :color :colorBar :infos="infos" :value="box.value" :valueName="box.valueName" :maxValue="box.maxValue" :title="box.title" :icon="box.icon"/>
 </template>
 
 <script>
 
-
+import infos from './assets/infos';
 import chart1 from './assets/chart1';
 import chart2 from './assets/chart2';
 import chart3 from './assets/chart3';
@@ -58,7 +58,8 @@ export default {
           "linkAddress": "/messaggi",
           "icon": "pi pi-envelope"
         }
-      ]
+      ],
+      infos:infos
     }
   },
   provide() {

@@ -1,0 +1,38 @@
+[
+    {
+      "color": "bg-primary",
+      "colorBar": "bg-primary",
+      "title": "Fatturato",
+      "icon": "pi pi-dollar",
+      "iconColor": "text-white",
+      "value": 50000,
+      "valueName": "Fatturato",
+      "sizes": ["12", "sm-6", "lg-4"],
+      "maxValue": 100000,
+      "isFull": true
+    },
+    {
+      "color": "bg-success",
+      "colorBar": "bg-success",
+      "title": "Stipendi",
+      "icon": "pi pi-users",
+      "iconColor": "text-white",
+      "value": 30000,
+      "valueName": "Stipendi",
+      "sizes": ["12", "sm-6", "lg-4"],
+      "maxValue": 50000,
+      "isFull": false
+    },
+    {
+      "color": "bg-danger",
+      "colorBar": "bg-danger",
+      "title": "Altre Spese",
+      "icon": "pi pi-exclamation-triangle",
+      "iconColor": "text-red",
+      "value": 10000,
+      "valueName": "Spese",
+      "sizes": ["12", "sm-6", "lg-4"],
+      "maxValue": 20000,
+      "isFull": false
+    }
+  ]
