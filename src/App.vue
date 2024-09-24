@@ -10,7 +10,9 @@
 import chart1 from './assets/chart1';
 import chart2 from './assets/chart2';
 import chart3 from './assets/chart3';
-import chart4 from './assets/chart4';
+// import chart4 from './assets/chart4';
+import chart5 from './assets/chart5';
+import chart6 from './assets/chart6';
 
 import DashBoard from './components/DashBoard.vue';
 import InfoRow from './components/InfoRow.vue';
@@ -59,7 +61,7 @@ export default {
   },
   provide() {
     return {
-      charts: [chart1, chart2, chart3, chart4],
+      charts: [chart1, chart2, chart3, /* chart4, */ chart5, chart6],
       boxes: this.boxes
     }
   },

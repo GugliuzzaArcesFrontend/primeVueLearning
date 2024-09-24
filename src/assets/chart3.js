@@ -1,6 +1,6 @@
 export default{
     data : {
-        labels: ['Categoria A', 'Categoria B', 'Categoria C', 'Categoria D', 'Categoria E'],
+        labels: ['Condominii', 'Privati', 'Enti pubblici', 'Amministratori', 'Subappalti'],
         datasets: [{
             label: 'Distribuzione per categoria',
             data: [25, 15, 30, 10, 20], // Percentuali o valori
