@@ -100,11 +100,12 @@ export default {
 }
 
 .c-info-box-container {
+    min-height: 100px;
     width: auto;
     margin: 0;
     margin-bottom: .5rem;
     display: flex;
-    align-items: center;
+    align-content: center;
     border: 1px solid rgba(150, 150, 150, 0.5);
     border-radius: 10px;
 }
@@ -117,8 +118,12 @@ export default {
 
 .c-info-box-icon {
     display: inline-block;
+    
 }
-
+.c-info-box-icon i {
+    font-size: 1.75rem;
+    padding: 5%;
+}
 .c-info-box-content {
     display: inline-block;
     padding-left: 5%;

@@ -1,14 +1,17 @@
 <template>
-  <InfoRow style="margin-bottom: 10px"/>
+  <InfoRow style="margin-bottom: 10px" />
 
   <DashBoard />
 
-  <Infobox v-for="(box, i) in infos" :key="i + 1" :color :colorBar :infos="infos" :value="box.value" :valueName="box.valueName" :maxValue="box.maxValue" :title="box.title" :icon="box.icon"/>
+  <div class="carder">
+    <Infobox class="w-33 d-i-block" v-for="(box, i) in infos" :key="i + 1" :color :colorBar :infos="infos"
+      :value="box.value" :valueName="box.valueName" :maxValue="box.maxValue" :title="box.title" :icon="box.icon" />
+  </div>
 </template>
 
 <script>
 
-import infos from './assets/infos';
+import infos from './assets/infos.json';
 import chart1 from './assets/chart1';
 import chart2 from './assets/chart2';
 import chart3 from './assets/chart3';
@@ -59,7 +62,7 @@ export default {
           "icon": "pi pi-envelope"
         }
       ],
-      infos:infos
+      infos: infos
     }
   },
   provide() {
@@ -72,4 +75,19 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.w-33 {
+  width: calc(33% - .5rem);
+}
+
+.d-i-block {
+  display: inline-block;
+}
+
+.carder {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>
