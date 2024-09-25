@@ -11,7 +11,6 @@
         </template>
 
         <template #content>
-            {{ listData }}
             <ul class="c-ul">
                 <li class="c-li" v-for="(item, i) in paginatedList" :class="{ 'done': item.status }" :key="i"
                     :id="`todo${i + 1}`">
@@ -39,22 +38,26 @@
                 </li>
             </ul>
         </template>
+
         <template #footer>
             <Button class="open-dialog" severity="info" raised outline label="Aggiungi mansione" icon="pi pi-plus"
                 @click="showDialog = true"></Button>
         </template>
     </Card>
+
     <Dialog v-model:visible="showDialog" modal @hide="resetNewItem()" class="c-dialog" :closable=false
         :dismissableMask=true>
         <template #header>
             <h5 v-if="!editingItem" class="dialog-title">Nuova mansione</h5>
             <h5 v-else class="dialog-title">Aggiorna mansione</h5>
+
             <Button style="margin-left:auto" icon="pi pi-times" class="dialog-close p-button-text p-button-secondary"
                 @click="showDialog = false" />
         </template>
 
         <div class="dialog-content">
             <Toast position="center" />
+
             <div class="dialog-input">
                 <label for="taskName">Nome mansione</label>
                 <input type="text" class="form-control" name="taskName" id="taskName" v-model="newItem.task">
@@ -65,6 +68,7 @@
                 <input type="date" class="form-control" name="dueDate" id="dueDate" v-model="newItem.dueDate">
             </div>
         </div>
+
         <template #footer>
             <ButtonGroup>
                 <Button label="Annulla" severity="danger" class="dialog-cancel" @click="showDialog = false" />
@@ -76,6 +80,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Badge from 'primevue/badge';
 import Button from 'primevue/button';
 import ButtonGroup from 'primevue/buttongroup';
@@ -83,6 +88,8 @@ import Card from 'primevue/card';
 import Dialog from 'primevue/dialog';
 import Paginator from 'primevue/paginator';
 import Toast from 'primevue/toast';
+
+const URL = 'http://localhost:6500/api/';
 
 export default {
     name: "CheckList",
@@ -110,13 +117,12 @@ export default {
             listData: [],
         }
     },
-    created() {
-        this.fetchList();
-    },
     mounted() {
         window.addEventListener("resize", this.windowSize);
         window.addEventListener("orientationchange", this.windowSize);
+        this.fetchList();
     },
+
     unmounted() {
         window.removeEventListener("resize", this.windowSize);
         window.removeEventListener("orientationchange", this.windowSize);
@@ -138,17 +144,17 @@ export default {
             if (this.innerWidth > 1200) return 3;
             else return 1;
         }
-
     },
     methods: {
         fetchList() {
             try {
-                this.$axios.get('http://localhost:6500/api/checklist')
+                axios.get(URL + 'checklist')
                     .then((response) => {
                         this.listData = response.data;
                     })
-            }catch (error) {
-                this.listData = ['Mali forti iu arreri']
+            } catch (error) {
+                console.log(error);
+                this.listData = [{ task: 'Mali forti iu arreri' }]
             }
         },
         onPageChange(event) {
@@ -188,17 +194,17 @@ export default {
             if (this.editingItem) {
                 Object.assign(this.editingItem, this.newItem);
                 this.editingItem = null;
-                await this.$axios.post('http://localhost:6500/api/checklistAdd', this.newItem);
+                await axios.post(URL + 'checklistAdd', this.newItem);
+                this.fetchList();
             }
             else {
-                this.newItem.id = this.listData.length + 1;
-                this.newItem.todo = `todo${this.listData.length + 1}`;
-                this.listData.push({ ...this.newItem });
-                let body = JSON.stringify(this.newItem);
-                console.log(body);
-                await this.$axios.post('http://localhost:6500/api/checklistAdd', this.newItem).then((response) => {
-                    console.log(response);
-                });
+                this.newItem.id = 1;
+                while (this.listData.some(item => item.id == this.newItem.id)) {
+                    this.newItem.id++;
+                }
+                this.newItem.todo = `todo${this.newItem.id}`;
+                await axios.post(URL + 'checklistAdd', this.newItem);
+                this.fetchList();
             }
             this.resetNewItem();
             this.showDialog = false;
@@ -218,8 +224,9 @@ export default {
             };
             this.editingItem = null;
         },
-        removeItem(id) {
-            this.listData.splice(this.listData.findIndex(item => item.id == id), 1);
+        async removeItem(id) {
+            await axios.delete(URL + `checklistDelete/${id}`);
+                this.fetchList();
         },
         windowSize() {
             this.innerWidth = window.innerWidth;

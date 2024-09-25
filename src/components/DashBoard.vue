@@ -29,7 +29,7 @@
                 <div class="w-100"></div>
                 
                 <Card class="custom-card" :class="[{ 'w-100': innerWidth < 741, 'w-50': innerWidth >= 741 }]">
-                    <template #title> Stao pratiche aperte </template>
+                    <template #title> Stato pratiche aperte </template>
                     <template #content><!--  -->
                         <Chart class="custom-chart" :height="canvasSize" :type="charts[3].type" :data="charts[3].data"
                             :options="charts[3].options" />
@@ -46,8 +46,8 @@
             </template>
         </Card>
 
-        <!-- <CheckList class="checklist-card">
-        </CheckList> -->
+        <CheckList class="checklist-card">
+        </CheckList>
     </div>
 </template>
 

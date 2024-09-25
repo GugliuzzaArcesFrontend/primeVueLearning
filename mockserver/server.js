@@ -18,6 +18,7 @@ const readJSONFile = (filepath) => {
     });
   });
 }
+
 //API
 app.get('/api/checklist', async (req, res) => {
   try {
@@ -29,29 +30,43 @@ app.get('/api/checklist', async (req, res) => {
 });
 
 app.post('/api/checklistAdd', async (req, res) => {
-  try {       
+  try {
     const data = await readJSONFile('mock.json');
-    console.log(req.body);
-    data.push(req.body);
-    fs.writeFileSync('mock.json', JSON.stringify(data));
-    res.json(data);
-  } catch (error) {
+    const id = req.body.id;
+
+    if (data.some(item => item.id == id)) {
+      const index = data.findIndex(item => item.id == id);
+      data[index] = { ...req.body };
+      fs.writeFileSync('mock.json', JSON.stringify(data));
+      res.json(data);
+    }
+
+    else {
+      data.push(req.body);
+      fs.writeFileSync('mock.json', JSON.stringify(data));
+      res.json(data);
+    }
+  }
+  catch (error) {
     res.status(500).json({ message: 'Errore nella scrittura del file JSON.' });
   }
 });
 
-app.delete('/api/checklistDelete', async (req, res) => {
+app.delete('/api/checklistDelete/:id', async (req, res) => {
   try {
     const data = await readJSONFile('mock.json');
-    const index = data.findIndex(item => item.id === req.body.id);
+    const index = data.findIndex(item => item.id == req.params.id);
+
     if (index !== -1) {
       data.splice(index, 1);
       fs.writeFileSync('mock.json', JSON.stringify(data));
-      res.json(data);
-    } else {
+      res.status(200).json({ data, message: 'Elemento rimosso correttamente.' });
+    }
+    else {
       res.status(404).json({ message: 'Elemento non trovato.' });
     }
-  } catch (error) {
+  }
+  catch (error) {
     res.status(500).json({ message: 'Errore nella rimozione dell\'elemento.' });
   }
 });

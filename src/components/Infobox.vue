@@ -13,6 +13,7 @@
 
             <div v-if="maxValue" class="c-info-box-progress ms-auto col-4 align-self-center">
                 <p>Tasso di {{ valueName.toLowerCase() }}</p>
+                
                 <div class="progress">
                     <div class="progress-bar" :class="colorBar" :style="{ width: progressBar }"></div>
                 </div>

@@ -10,17 +10,17 @@ import ToastService from 'primevue/toastservice';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-import axios from 'axios';
 
 const app = createApp(App);
 
 app.use(PrimeVue, { theme: { /* unstyled: true, */ preset: Aura } });
 app.use(ToastService);
 
+
 app.mount('#app');
 
 app.config.globalProperties.window = window;
-app.config.globalProperties.$axios=axios;
+// app.config.globalProperties.axios=axios;
 //app.config.globalProperties.
 
 
