@@ -15,7 +15,7 @@
                 <p>Tasso di {{ valueName.toLowerCase() }}</p>
                 
                 <div class="progress">
-                    <div class="progress-bar" :class="colorBar" :style="{ width: progressBar }"></div>
+                    <div class="progress-bar" :class="colorBar" :style="{ 'min-width': progressBar }"></div>
                 </div>
 
                 <span class="progress-description">
@@ -45,7 +45,7 @@ export default {
         },
         colorBar: {
             type: String,
-            default: "bg-dark",
+            default: "red",
         },
         title: {
             type: String,
@@ -130,7 +130,14 @@ export default {
     padding-left: 5%;
     text-align: left;
 }
-
+.progress{
+    min-width: 100px;
+    background-color: rgba(150, 150, 150, 0.5)
+}
+.red{
+    background-color: rgba(255, 0, 0, 1);
+    min-height: 100%;
+}
 .c-info-box-progress {
     display: inline-block;
 }

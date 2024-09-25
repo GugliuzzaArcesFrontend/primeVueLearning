@@ -4,7 +4,7 @@
   <DashBoard />
 
   <div class="carder">
-    <Infobox class="w-33 d-i-block" v-for="(box, i) in infos" :key="i + 1" :color :colorBar :infos="infos"
+    <Infobox class="w-33 d-i-block" v-for="(box, i) in infos" :key="i + 1" :color :colorBar :infos="infos" 
       :value="box.value" :valueName="box.valueName" :maxValue="box.maxValue" :title="box.title" :icon="box.icon" />
   </div>
 </template>
