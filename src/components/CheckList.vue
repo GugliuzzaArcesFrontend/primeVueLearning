@@ -17,8 +17,8 @@
                     <i class="pi pi-ellipsis-v"></i>
 
                     <div class="c-checkbox">
-                        <input type="checkbox" :checked="item.status" v-model="item.status" :name="item.todo"
-                            :value="item.todo" :id="`todoCheck${item.id}`">
+                        <input type="checkbox" :checked="item.status"  @change="updateStatus(item)" :name="item.todo"
+                            :value="item.todo" :id="`todoCheck${item.id}`"><!-- v-model="item.status" -->
                         <label :for="`todoCheck${item.id}`"></label>
                     </div>
 
@@ -226,7 +226,15 @@ export default {
         },
         async removeItem(id) {
             await axios.delete(URL + `checklistDelete/${id}`);
-                this.fetchList();
+            this.fetchList();
+        },
+        async updateStatus(item) {
+            try {
+                item.status = !item.status;  
+                await axios.post(URL + 'checklistAdd', item);
+            } catch (error) {
+                console.error('Errore durante l\'aggiornamento dello status:', error);
+            }
         },
         windowSize() {
             this.innerWidth = window.innerWidth;
