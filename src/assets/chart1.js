@@ -40,7 +40,7 @@ export default {
         aspectRatio: 2,
         scales: {
             y: {
-                beginAtZero: true,
+                // beginAtZero: true,
                 stacked: true
             },
             x: {

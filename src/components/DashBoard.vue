@@ -1,89 +1,126 @@
 <template>
     <div class="dashboard">
+        <InfoRow style="margin-bottom: 10px; float:top; width: 100%" />
+        <div class="w-100">
         <Card class="charting-card">
             <!-- <template #title>
                 <Paginator :totalRecords="charts.length" :rows="chartsPerPage" :first="first" @page="onPageChange"
                     :template="paginatorTemplate" :pageLinkSize="3" currentPageReportTemplate="of {totalPages}"/>
             </template> -->
 
-            <template #content>
-                <Card class="custom-card" :class="[{ 'w-100': innerWidth < 576, 'w-66': innerWidth >= 576 }]">
-                    <!--  v-for="(chart, i) in paginatedChart" :key="i" :id="`chart${i + 1}`" -->
-                    <template #title>Report fatturato </template> <!-- {{ i + 1 + first}} -->
-                
-                    <template #content><!--  -->
+            <template #content><!--  -->
+                <!-- <div class="custom-card w-66">
+                    <Tabs scrollable lazy="true" :value="0">
+                        <TabList>
+                            <Tab v-for="(chart, i) in charts" :key="i" :id="`tab${i + 1}`" :value="i">Grafico {{ 1 + i
+                                }}
+                            </Tab>
+                        </TabList>
+
+                        <TabPanels>
+                            <TabPanel v-for="(chart, i) in charts" :key="i" :id="`chart${i + 1}`" :value="i">
+                                <div>
+                                    <Chart class="custom-chart" :type="chart.type" :data="chart.data"
+                                        :options="chart.options" />
+                                </div>
+                            </TabPanel>
+                        </TabPanels>
+                    </Tabs>
+                </div> --><!-- :height="canvasSize" -->
+                <!-- <Card class="custom-card" :class="[{ 'w-100': innerWidth < 576, 'w-66': innerWidth >= 576 }]">
+                    v-for="(chart, i) in paginatedChart" :key="i" :id="`chart${i + 1}`"
+                    <template #title>Report fatturato </template> {{ i + 1 + first}}
+
+<template #content>
                         <Chart class="custom-chart" :height="canvasSize" :type="charts[0].type" :data="charts[0].data"
                             :options="charts[0].options" />
                     </template>
-                </Card>
+</Card>
 
-                <Card class="custom-card" :class="[{ 'w-100': innerWidth < 576, 'w-33': innerWidth >= 576 }]">
-                    <template #title>Fidelizzazione clienti</template>
+<Card class="custom-card" :class="[{ 'w-100': innerWidth < 576, 'w-33': innerWidth >= 576 }]">
+    <template #title>Fidelizzazione clienti</template>
 
-                    <template #content><!--  -->
+    <template #content>
                         <Chart class="custom-chart" :height="canvasSize" :type="charts[4].type" :data="charts[4].data"
                             :options="charts[4].options" />
                     </template>
-                </Card>
+</Card>
 
-                <div class="w-100"></div>
-                
-                <Card class="custom-card" :class="[{ 'w-100': innerWidth < 741, 'w-50': innerWidth >= 741 }]">
-                    <template #title> Stato pratiche aperte </template>
-                    <template #content><!--  -->
+<div class="w-100"></div>
+
+<Card class="custom-card" :class="[{ 'w-100': innerWidth < 741, 'w-50': innerWidth >= 741 }]">
+    <template #title> Stato pratiche aperte </template>
+    <template #content>
                         <Chart class="custom-chart" :height="canvasSize" :type="charts[3].type" :data="charts[3].data"
                             :options="charts[3].options" />
                     </template>
-                </Card>
+</Card>
 
-                <Card class="custom-card" :class="[{ 'w-100': innerWidth < 741, 'w-50': innerWidth >= 741 }]">
-                    <template #title> Tipologia clienti </template>
-                    <template #content><!-- -->
+<Card class="custom-card" :class="[{ 'w-100': innerWidth < 741, 'w-50': innerWidth >= 741 }]">
+    <template #title> Tipologia clienti </template>
+    <template #content>
                         <Chart class="custom-chart" :height="canvasSize" :type="charts[2].type" :data="charts[2].data"
                             :options="charts[2].options" />
                     </template>
-                </Card>
+</Card> -->
             </template>
         </Card>
 
         <CheckList class="checklist-card">
         </CheckList>
-    </div>
+    </div></div>
 </template>
 
 <script>
 import chart1 from '../assets/chart1';
 import chart2 from '../assets/chart2';
 import chart3 from '../assets/chart3';
+import chart4 from '../assets/chart4';
 import chart5 from '../assets/chart5';
 import chart6 from '../assets/chart6';
 
 import Card from 'primevue/card';
 import Chart from 'primevue/chart';
+import Tab from 'primevue/tab';
+import Tabs from 'primevue/tabs';
+import TabList from 'primevue/tablist';
+import TabPanel from 'primevue/tabpanel';
+import TabPanels from 'primevue/tabpanels';
+//import Paginator from 'primevue/paginator';
+
 import CheckList from './CheckList.vue';
-import Paginator from 'primevue/paginator';
+import InfoRow from './InfoRow.vue';
 
 export default {
     name: 'DashBoard',
     components: {
         Card,
         Chart,
-        Paginator,
+        // Paginator,
+        Tab,
+        Tabs,
+        TabList,
+        TabPanel,
+        TabPanels,
+
         CheckList,
+        InfoRow,
     },
     // inject: ['charts'],
     data() {
         return {
             innerWidth: window.innerWidth,
+            innerHeight: window.innerHeight,
             first: 0,
             chartsPerPage: 1,
+            charts: [chart1, chart2, chart3, chart5, chart6],
         }
     },
     props: {
-        charts: {
+        /* charts: {
             type: Array,
             default: () => [chart1, chart2, chart3, chart5, chart6],
-        }
+        } */
     },
     mounted() {
         window.addEventListener("resize", this.windowSize);
@@ -119,6 +156,7 @@ export default {
         },
         windowSize() {
             this.innerWidth = window.innerWidth;
+            this.innerHeight = window.innerHeight;
         },
     }
 }
@@ -130,11 +168,12 @@ export default {
 } */
 
 .w-100 {
-    width: 97%;
+    width: 100%;
 }
 
 .w-66 {
     width: calc(66% - .5rem);
+    margin: .5rem;
 }
 
 .w-50 {
@@ -149,14 +188,16 @@ export default {
     box-sizing: border-box;
     border: solid 1px rgba(200, 200, 200, 0.5);
     border-radius: 10px;
-    display: inline-flex;
+    display: flex;
     width: 100%;
     margin: 0;
+    margin-bottom: .5rem;
     padding: 0
 }
 
 .charting-card {
     width: 100%;
+    height: stretch;
     display: inline-flex;
     flex-wrap: wrap;
     align-content: stretch;
@@ -166,10 +207,10 @@ export default {
 
 .custom-card {
     display: inline-block;
+    width: 97%;
     border-radius: 15px;
-    /* aspect-ratio: 2; */
     margin: 0 .5rem .5rem 0;
-    height: stretch;
+    height: auto;
     align-self: stretch
 }
 
@@ -178,6 +219,11 @@ export default {
     width: 100%;
     margin-bottom: .5rem;
     align-self: stretch;
+}
+
+:deep(canvas) {
+    width: 97%;
+    height: auto;
 }
 
 /* .checklist-card {
@@ -189,19 +235,31 @@ export default {
 @media (max-width:740px) {
     .dashboard {
         width: 100%;
-        /* display: flexbox; */
+        display: flexbox;
         flex-direction: column
     }
 
     .charting-card {
         display: flex;
-        width: 100%;
+        width: 97%;
         margin: 0
     }
 
     .checklist-card {
         display: block;
         width: 100%
+    }
+}
+
+@media (max-width: 576px) {
+    .custom-chart {
+        width: 97%;
+        height: auto;
+    }
+
+    .custom-card {
+        width: 100%;
+        /* Prende tutta la larghezza del contenitore */
     }
 }
 </style>

@@ -1,13 +1,14 @@
 import { createApp  } from 'vue';
-import './style.css';
 import App from './App.vue';
 
+import './style.css';
 import 'primeicons/primeicons.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
 import ToastService from 'primevue/toastservice';
 
-import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const app = createApp(App);
 
