@@ -13,8 +13,37 @@
 
 body {
   margin: 0;
-  display: flex;
   place-items: center;
   width: 100vw;
   height: 100vh;  
+}
+
+.row {
+  display: flex;
+  align-content: stretch;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.w-100 {
+  width: (100% - .5rem);
+}
+
+.w-66 {
+  width: calc(66% - .5rem);
+  margin: .5rem;
+}
+
+.w-50 {
+  width: calc(50% - .5rem);
+}
+
+.w-33 {
+  width: calc(33% - .5rem);
+}
+
+@media (orientation: portrait) {
+  .row {
+    flex-direction: column;
+  }
 }

@@ -1,6 +1,5 @@
 <template>
   <DashBoard />
-
 </template>
 
 <script>
@@ -70,18 +69,4 @@ export default {
 </script>
 
 <style scoped>
-.w-33 {
-  width: calc(33% - .5rem);
-}
-
-.d-i-block {
-  display: inline-block;
-}
-
-.carder {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 </style>

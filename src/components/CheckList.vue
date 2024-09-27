@@ -247,7 +247,7 @@ export default {
 .checklist-card {
     margin: 10px;
     margin-left: 0px;
-    width: 33%;
+    width: 33%; 
 }
 
 .c-ul {
@@ -334,7 +334,7 @@ export default {
     max-height: 50px;
 }
 
-@media (max-width: 741px) {
+@media (orientation:portrait) {
     .checklist-card {
         display: block;
         width: 100%;
@@ -351,8 +351,8 @@ export default {
 
     .task-description {
         box-sizing: border-box;
-        width: 50% !important;
-        overflow: hidden !important;
+        width: 50% ;
+        overflow: hidden ;
         text-overflow: ellipsis;
         white-space: nowrap;
     }

@@ -90,16 +90,11 @@ export default {
         valueType() {
             return typeof this.value
         },
-
     }
 }
 </script>
 
 <style scoped>
-* {
-    display: inline-block;
-}
-
 .c-info-box-container {
     min-height: 100px;
     width: auto;
@@ -121,23 +116,28 @@ export default {
     display: inline-block;
     
 }
+
 .c-info-box-icon i {
     font-size: 1.75rem;
     padding: 5%;
 }
+
 .c-info-box-content {
     display: inline-block;
     padding-left: 5%;
     text-align: left;
 }
+
 .progress{
     min-width: 100px;
     background-color: rgba(150, 150, 150, 0.5)
 }
+
 .red{
     background-color: rgba(255, 0, 0, 1);
     min-height: 100%;
 }
+
 .c-info-box-progress {
     display: inline-block;
 }

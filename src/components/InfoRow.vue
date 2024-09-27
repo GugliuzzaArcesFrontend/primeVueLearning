@@ -1,5 +1,5 @@
 <template>
-    <Card style="display:inline; margin-bottom: 10px; width: 100%">
+    <Card >
         <template #content>
             <div class="info-row">
                 <SmallBox v-for="(box, i) in boxes" :key="i + 1" :value="box.value" :description="box.description"
@@ -37,15 +37,16 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     display: flex;
-    width: 100;
+    width: 100%;
     justify-content: space-between;
 }
 
-@media (max-width:741px) {
+@media (max-width:740px) {
     .info-row {
         flex-direction: column;
-        height: 15vh;
+        /* flex-wrap: wrap; */
         overflow-x: auto;
+        max-height: 15vh
     }
     .info-row>* {
         width: calc(50% - .75rem);
@@ -53,16 +54,18 @@ export default {
     }
 }
 
-@media (max-width:361px) {
+@media (orientation:portrait) {
     .info-row {
         flex-direction: column;
         flex-wrap: wrap;
-        height: auto;
+        height: 15vh;
         overflow-x: auto;
+        scroll-snap-type: x mandatory;
     }
     .info-row>* {
         width: calc(100% - .5rem);
-        margin-right: 1rem
+        margin-right: 1rem;
+        scroll-snap-align: center;
     }
 }
 </style>
