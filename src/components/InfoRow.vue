@@ -1,9 +1,10 @@
 <template>
-    <Card >
+    <Card>
         <template #content>
-            <div class="info-row">
-                <SmallBox v-for="(box, i) in boxes" :key="i + 1" :value="box.value" :description="box.description"
-                    :linkDescription="box.linkDescription" :linkAddress="box.linkAddress" :icon="box.icon" />
+            <div ref="row" class="info-row">
+                <SmallBox ref="boxes" v-for="(box, i) in boxes" :key="box" :value="box.value"
+                    :description="box.description" :linkDescription="box.linkDescription" :linkAddress="box.linkAddress"
+                    :icon="box.icon" />
             </div>
         </template>
     </Card>
@@ -28,7 +29,21 @@ export default {
             data: this.boxes
         }
     },
-
+    mounted() {
+        this.updateRowHeight();
+        window.addEventListener("resize", this.updateRowHeight);
+        window.addEventListener("orientationchange", this.updateRowHeight);
+     },
+    unmounted() {
+        window.removeEventListener("resize", this.updateRowHeight);
+        window.removeEventListener("orientationchange", this.updateRowHeight);
+     },
+    methods: {
+        updateRowHeight() {
+            const boxHeight = this.$refs.boxes[0].$el.offsetHeight;
+            this.$refs.row.style.height = `calc(${boxHeight}px + 1rem)`;            
+        }
+    }
 }
 </script>
 
@@ -41,27 +56,29 @@ export default {
     justify-content: space-between;
 }
 
-@media (max-width:740px) {
+@media (max-width:1024px) {
     .info-row {
         flex-direction: column;
-        /* flex-wrap: wrap; */
+        flex-wrap: wrap;
         overflow-x: auto;
-        max-height: 15vh
+        scroll-snap-type: x mandatory;
     }
+
     .info-row>* {
         width: calc(50% - .75rem);
-        margin-right: 1rem
+        margin-right: 1rem;
+        scroll-snap-align: start;
     }
 }
 
 @media (orientation:portrait) {
     .info-row {
         flex-direction: column;
-        flex-wrap: wrap;
-        height: 15vh;
+        flex-wrap: wrap;        
         overflow-x: auto;
         scroll-snap-type: x mandatory;
     }
+
     .info-row>* {
         width: calc(100% - .5rem);
         margin-right: 1rem;

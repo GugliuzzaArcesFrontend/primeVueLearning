@@ -1,44 +1,12 @@
 <template>
     <div class="dashboard">
-        <InfoRow class="sticky" />
+        <InfoRow/>
         <section>
             <div class="row w-100 scroll-point">
-                <Card class="charting-card " :class="{ 'w-66': innerWidth > innerHeight }">
-                    <!-- <template #title>
-                <Paginator :totalRecords="charts.length" :rows="chartsPerPage" :first="first" @page="onPageChange" :template="paginatorTemplate" :pageLinkSize="3" currentPageReportTemplate="of {totalPages}"/> </template>
--->
+                <Card class="charting-card h-100" :class="{ 'w-66': innerWidth > innerHeight }">
                     <template #content>
-                        <div class="custom-card">
-                            <Tabs scrollable lazy="false" :value="0">
-                                <TabList>
-                                    <Tab v-for="(chart, i) in charts" :key="i" :id="`tab${i + 1}`" :value="i">Grafico {{
-                                        1 + i }}
-                                    </Tab>
-                                </TabList>
-
-                                <TabPanels>
-                                    <TabPanel v-for="(chart, i) in charts" :key="i" :id="`chart${i + 1}`" :value="i">
-                                        <div>
-                                            <Chart class="custom-chart" :type="chart.type" :data="chart.data"
-                                                :options="chart.options" />
-                                        </div>
-                                    </TabPanel>
-                                </TabPanels>
-                            </Tabs>
-                        </div><!-- :height="canvasSize" -->
-                    </template>
-                </Card>
-
-                <CheckList class="checklist-card">
-                </CheckList>
-            </div>
-            <div class="row w-100 scroll-point">
-                <Card class="charting-card" :class="{ 'w-66': innerWidth > innerHeight }">
-                    <!-- <template #title>
-                <Paginator :totalRecords="charts.length" :rows="chartsPerPage" :first="first" @page="onPageChange" :template="paginatorTemplate" :pageLinkSize="3" currentPageReportTemplate="of {totalPages}"/> </template> -->
-                    <template #content>
-                        <div class="custom-card">
-                            <Tabs scrollable lazy="false" :value="0">
+                        <div class="custom-card h-100">
+                            <Tabs scrollable :lazy="true" :value="0">
                                 <TabList>
                                     <Tab v-for="(chart, i) in charts" :key="i" :id="`tab${i + 1}`" :value="i">Grafico {{
                                         1 + i }}
@@ -55,7 +23,33 @@
                                 </TabPanels>
                             </Tabs>
                         </div>
-                        <!-- :height="canvasSize" -->
+                    </template>
+                </Card>
+
+                <CheckList class="checklist-card">
+                </CheckList>
+            </div>
+            <div class="row w-100 scroll-point">
+                <Card class="charting-card h-100" :class="{ 'w-66': innerWidth > innerHeight }">
+                    <template #content>
+                        <div class="custom-card h-100">
+                            <Tabs scrollable :lazy="true" :value="0">
+                                <TabList>
+                                    <Tab v-for="(chart, i) in charts" :key="i" :id="`tab${i + 1}`" :value="i">Grafico {{
+                                        1 + i }}
+                                    </Tab>
+                                </TabList>
+
+                                <TabPanels>
+                                    <TabPanel v-for="(chart, i) in charts" :key="i" :id="`chart${i + 1}`" :value="i">
+                                        <div>
+                                            <Chart class="custom-chart" :type="chart.type" :data="chart.data"
+                                                :options="chart.options" />
+                                        </div>
+                                    </TabPanel>
+                                </TabPanels>
+                            </Tabs>
+                        </div>
                     </template>
                 </Card>
 
@@ -81,7 +75,6 @@ import Tabs from 'primevue/tabs';
 import TabList from 'primevue/tablist';
 import TabPanel from 'primevue/tabpanel';
 import TabPanels from 'primevue/tabpanels';
-//import Paginator from 'primevue/paginator';
 
 import CheckList from './CheckList.vue';
 import InfoRow from './InfoRow.vue';
@@ -91,7 +84,6 @@ export default {
     components: {
         Card,
         Chart,
-        // Paginator,
         Tab,
         Tabs,
         TabList,
@@ -170,8 +162,7 @@ export default {
 }
 
 .charting-card {
-    height: stretch;
-    /* flex-wrap: wrap; */
+    height: auto;
     align-content: stretch;
     align-items: stretch;
     justify-content: space-between;
@@ -182,7 +173,6 @@ export default {
     width: 100%;
     border-radius: 15px;
     margin: 0 .5rem .5rem 0;
-    height: auto;
     align-self: stretch
 }
 
@@ -198,27 +188,7 @@ export default {
     height: auto;
 }
 
-/* .checklist-card {
-    margin: 10px;
-    margin-left: 0px;
-    width: 33%;
-} */
-
-/* @media (max-width:740px) {
-    .dashboard {
-        width: 100%;
-        display: flex;
-        flex-direction: column
-    }
-
-    .charting-card {
-        display: flex;
-        width: 100%;
-        margin: 0;
-        margin-bottom: .5rem;
-    } */
 @media (orientation: landscape) {
-
     section {
         scroll-snap-type: y mandatory;
         overflow-y: auto;
@@ -227,14 +197,11 @@ export default {
 
     .scroll-point {
         scroll-snap-align: start;
+        scroll-snap-stop: always;
     }
 
-    .sticky {
-        /* position: sticky;
-        top: 0;
-        z-index: 1000;
-         */box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        height: 20%;
+    .row {
+        height: 100%
     }
 }
 
