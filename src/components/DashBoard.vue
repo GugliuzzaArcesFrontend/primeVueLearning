@@ -5,7 +5,7 @@
             <ShortcutsBar />
         </div>
         <section>
-            <div class="row w-100 h-100 scroll-point">
+            <div class="row h-100 scroll-point">
                 <Card class="charting-card h-100" :class="{ 'w-66': innerWidth > innerHeight }">
                     <template #content>
                         <div class="custom-card h-100">
@@ -18,23 +18,21 @@
 
                                 <TabPanels>
                                     <TabPanel v-for="(chart, i) in charts" :key="i" :id="`chart${i + 1}`" :value="i">
-                                        <!-- <div> -->
-                                            <Chart class="custom-chart" :type="chart.type" :data="chart.data"
-                                                :options="chart.options" />
-                                        <!-- </div> -->
+                                        <Chart class="custom-chart" :type="chart.type" :data="chart.data"
+                                            :options="chart.options" />
                                     </TabPanel>
                                 </TabPanels>
                             </Tabs>
                         </div>
                     </template>
                 </Card>
-                <Card class="h-100 charting-card" :class="{ 'w-33': innerWidth > innerHeight }">
+                <Card class="charting-card h-100" :class="{ 'w-33': innerWidth > innerHeight }">
                     <template #title>
                         {{ chart4.title }}
                     </template>
-                    <template #content>
+                    <template class="h-100" #content>
                         <div class="custom-card h-100">
-                            <Chart class="custom-chart" :type="chart4.type" :data="chart4.data"
+                            <Chart class="custom-chart" :height="canvasSize" :type="chart4.type" :data="chart4.data"
                                 :options="chart4.options" />
                         </div>
                     </template>
@@ -43,10 +41,8 @@
                 </CheckList> -->
             </div>
 
-            <div class="w-100"></div>
-
-            <div class="lower-table row h-100 w-100 scroll-point">
-                <div class="bbb w-50 h-50"></div>
+            <div class="lower-table row h-100 scroll-point">
+                <div class="bbb w-50 h-50">tacci mia</div>
                 <div class="bbb w-50 h-50">tacci tua</div>
                 <div class="bbb w-50 h-50">tacci sua</div>
                 <div class="bbb w-50 h-50">tacci loro</div>
@@ -108,6 +104,7 @@ export default {
         } */
     },
     mounted() {
+        this.windowSize();
         window.addEventListener("resize", this.windowSize);
         window.addEventListener("orientationchange", this.windowSize);
     },
@@ -116,23 +113,23 @@ export default {
         window.removeEventListener("orientationchange", this.windowSize);
     },
     computed: {
-        paginatedChart() {
+        /* paginatedChart() {
             return this.charts.slice(this.first, this.first + this.chartsPerPage);
         },
         paginatorTemplate() {
             if (this.innerWidth <= 576)
                 return 'PrevPageLink JumpToPageInput CurrentPageReport NextPageLink';
             else if (this.innerWidth <= 1200 && this.innerWidth > 576)
-                return ' FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink';
+                return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink';
             else return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageInput CurrentPageReport';
-        },
-        /* canvasSize() {
+        }, */
+        canvasSize() {
             if (this.innerWidth <= 576)
                 return 150;
             else if (this.innerWidth <= 1200 && this.innerWidth > 576)
                 return 200;
             else return 300;
-        }, */
+        },
     },
 
     methods: {
@@ -149,24 +146,25 @@ export default {
 
 <style scoped>
 .dashboard {
-    border: solid 1px rgba(200, 200, 200, 0.5);
-    border-radius: 10px;
+    /* border: solid 1px rgba(200, 200, 200, 0.5); */
+    /* border-radius: 10px;  */
     width: 100%;
     height: 100%;
     margin: 0;
     margin-bottom: .5rem;
-    padding: 0
+    padding: 0;
 }
 
 .summary {
+    border: solid 1px rgba(200, 200, 200, 0.5);
     margin: .5rem;
     padding: .5rem;
 }
 
 .charting-card {
-    height: auto;/* 
+    height: auto;
     align-content: stretch;
-    align-items: stretch; */
+    align-items: stretch;
     justify-content: space-between;
 }
 
@@ -174,15 +172,15 @@ export default {
     display: inline-block;
     width: 100%;
     border-radius: 15px;
-    margin: 0 .5rem .5rem 0;
-    align-self: stretch
+    /* margin: 0 .5rem .5rem 0; */
+    /* align-self: stretch */
 }
 
 .custom-chart {
     display: inline-block;
     width: 100%;
     margin-bottom: .5rem;
-    align-self: stretch;
+    /* align-self: stretch; */
 }
 
 .lower-table {

@@ -19,6 +19,7 @@ body {
 }
 
 .row {
+  width: calc(100% - 1rem);
   display: flex;
   align-content: stretch;
   align-items: stretch;
