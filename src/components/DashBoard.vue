@@ -1,13 +1,11 @@
 <template>
     <div class="dashboard">
-        <Card class="summary">
-            <template #content>
-                <InfoRow />
-                <ShortcutsBar />
-            </template>
-        </Card>
+        <div class="summary">
+            <InfoRow />
+            <ShortcutsBar />
+        </div>
         <section>
-            <div class="row w-100 scroll-point">
+            <div class="row w-100 h-100 scroll-point">
                 <Card class="charting-card h-100" :class="{ 'w-66': innerWidth > innerHeight }">
                     <template #content>
                         <div class="custom-card h-100">
@@ -20,47 +18,38 @@
 
                                 <TabPanels>
                                     <TabPanel v-for="(chart, i) in charts" :key="i" :id="`chart${i + 1}`" :value="i">
-                                        <div>
+                                        <!-- <div> -->
                                             <Chart class="custom-chart" :type="chart.type" :data="chart.data"
                                                 :options="chart.options" />
-                                        </div>
+                                        <!-- </div> -->
                                     </TabPanel>
                                 </TabPanels>
                             </Tabs>
                         </div>
                     </template>
                 </Card>
-
-                <CheckList class="checklist-card">
-                </CheckList>
+                <Card class="h-100 charting-card" :class="{ 'w-33': innerWidth > innerHeight }">
+                    <template #title>
+                        {{ chart4.title }}
+                    </template>
+                    <template #content>
+                        <div class="custom-card h-100">
+                            <Chart class="custom-chart" :type="chart4.type" :data="chart4.data"
+                                :options="chart4.options" />
+                        </div>
+                    </template>
+                </Card>
+                <!-- <CheckList class="checklist-card">
+                </CheckList> -->
             </div>
+
             <div class="w-100"></div>
-            <div class="row w-100 scroll-point">
-                <Card class="charting-card h-100" :class="{ 'w-66': innerWidth > innerHeight }">
-                    <template #content>
-                        <div class="custom-card h-100">
-                            <Tabs scrollable :lazy="true" :value="0">
-                                <TabList>
-                                    <Tab v-for="(chart, i) in charts" :key="i" :id="`tab${i + 1}`" :value="i">{{
-                                        chart.title }}
-                                    </Tab>
-                                </TabList>
 
-                                <TabPanels>
-                                    <TabPanel v-for="(chart, i) in charts" :key="i" :id="`chart${i + 1}`" :value="i">
-                                        <div>
-                                            <Chart class="custom-chart" :type="chart.type" :data="chart.data"
-                                                :options="chart.options" />
-                                        </div>
-                                    </TabPanel>
-                                </TabPanels>
-                            </Tabs>
-                        </div>
-                    </template>
-                </Card>
-
-                <CheckList class="checklist-card">
-                </CheckList>
+            <div class="lower-table row h-100 w-100 scroll-point">
+                <div class="bbb w-50 h-50"></div>
+                <div class="bbb w-50 h-50">tacci tua</div>
+                <div class="bbb w-50 h-50">tacci sua</div>
+                <div class="bbb w-50 h-50">tacci loro</div>
             </div>
         </section>
     </div>
@@ -108,7 +97,8 @@ export default {
             innerHeight: window.innerHeight,
             first: 0,
             chartsPerPage: 1,
-            charts: [chart1, chart2, chart3, chart5, chart6, chart4],
+            charts: [chart1, chart2, chart3, chart5, chart6],
+            chart4: chart4,
         }
     },
     props: {
@@ -136,13 +126,13 @@ export default {
                 return ' FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink';
             else return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageInput CurrentPageReport';
         },
-        canvasSize() {
+        /* canvasSize() {
             if (this.innerWidth <= 576)
                 return 150;
             else if (this.innerWidth <= 1200 && this.innerWidth > 576)
                 return 200;
             else return 300;
-        },
+        }, */
     },
 
     methods: {
@@ -159,7 +149,6 @@ export default {
 
 <style scoped>
 .dashboard {
-    box-sizing: border-box;
     border: solid 1px rgba(200, 200, 200, 0.5);
     border-radius: 10px;
     width: 100%;
@@ -170,13 +159,14 @@ export default {
 }
 
 .summary {
-
+    margin: .5rem;
+    padding: .5rem;
 }
 
 .charting-card {
-    height: auto;
+    height: auto;/* 
     align-content: stretch;
-    align-items: stretch;
+    align-items: stretch; */
     justify-content: space-between;
 }
 
@@ -195,6 +185,21 @@ export default {
     align-self: stretch;
 }
 
+.lower-table {
+    border: solid 1px rgba(200, 200, 200, 0.5);
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 0 0 .5rem;
+    padding: .5rem .5rem 0 .5rem;
+}
+
+.bbb {
+    border: solid 1px rgba(200, 200, 200, 0.5);
+    border-radius: 10px;
+}
+
 :deep(canvas) {
     width: 97%;
     height: auto;
@@ -204,16 +209,12 @@ export default {
     section {
         scroll-snap-type: y mandatory;
         overflow-y: auto;
-        height: 80%;
+        height: 75%;
     }
 
     .scroll-point {
         scroll-snap-align: start;
         scroll-snap-stop: always;
-    }
-
-    .row {
-        height: 100%
     }
 }
 

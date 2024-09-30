@@ -36,7 +36,7 @@ export default {
     methods: {
         updateRowHeight() {
             const boxHeight = this.$refs.boxes[0].$el.offsetHeight;
-            this.$refs.row.style.height = `calc(${boxHeight}px + 1rem)`;
+            this.$refs.row.style.height = `calc(${boxHeight}px + .5rem)`;
         }
     }
 }

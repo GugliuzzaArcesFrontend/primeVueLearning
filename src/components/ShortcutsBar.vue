@@ -32,7 +32,7 @@ export default {
     },
     methods: {
         updateRowHeight() {
-            const boxHeight = this.$refs.boxes[0].$el.offsetHeight;            
+            const boxHeight = this.$refs.boxes[0].$el.offsetHeight;
             this.$refs.row.style.height = `calc(${boxHeight}px + 1.25rem)`;
         }
     }
@@ -50,9 +50,9 @@ export default {
 }
 
 .link-row>* {
-    width: calc(15% - .75rem);
-        margin-right: .75rem;
-        scroll-snap-align: start;
+    width: calc(16.6% - .5rem);
+    margin-right: .5rem;
+    scroll-snap-align: start;
 }
 
 .shortcut-card {
@@ -62,13 +62,12 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
-}
-a{
-    text-decoration: none;
-    color: #000;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
 
 @media (max-width:1024px) {
     .link-row {
