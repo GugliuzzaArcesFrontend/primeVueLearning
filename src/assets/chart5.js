@@ -1,4 +1,5 @@
 export default {
+    title: 'Riepilogo pratiche',
     data: {
         labels: ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì'],
         datasets: [{
@@ -19,7 +20,7 @@ export default {
         }, {
             type: 'bar',
             label: ['Delibere'],
-            data: [12, 7 ,5, 9, 10],
+            data: [12, 7, 5, 9, 10],
             backgroundColor: [],
             borderColor: [],
             borderWidth: 1
@@ -31,7 +32,7 @@ export default {
         responsive: true,
         aspectRatio: 2,
         scales: {
-            x:{
+            x: {
                 stacked: true
             },
             y: {

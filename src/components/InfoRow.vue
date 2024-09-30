@@ -1,13 +1,8 @@
 <template>
-    <Card>
-        <template #content>
-            <div ref="row" class="info-row">
-                <SmallBox ref="boxes" v-for="(box, i) in boxes" :key="box" :value="box.value"
-                    :description="box.description" :linkDescription="box.linkDescription" :linkAddress="box.linkAddress"
-                    :icon="box.icon" />
-            </div>
-        </template>
-    </Card>
+    <div ref="row" class="info-row">
+        <SmallBox ref="boxes" v-for="(box, i) in boxes" :key="i" :value="box.value" :description="box.description"
+            :linkDescription="box.linkDescription" :linkAddress="box.linkAddress" :icon="box.icon" />
+    </div>
 </template>
 
 <script>
@@ -33,15 +28,15 @@ export default {
         this.updateRowHeight();
         window.addEventListener("resize", this.updateRowHeight);
         window.addEventListener("orientationchange", this.updateRowHeight);
-     },
+    },
     unmounted() {
         window.removeEventListener("resize", this.updateRowHeight);
         window.removeEventListener("orientationchange", this.updateRowHeight);
-     },
+    },
     methods: {
         updateRowHeight() {
             const boxHeight = this.$refs.boxes[0].$el.offsetHeight;
-            this.$refs.row.style.height = `calc(${boxHeight}px + 1rem)`;            
+            this.$refs.row.style.height = `calc(${boxHeight}px + 1rem)`;
         }
     }
 }
@@ -74,7 +69,7 @@ export default {
 @media (orientation:portrait) {
     .info-row {
         flex-direction: column;
-        flex-wrap: wrap;        
+        flex-wrap: wrap;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
     }

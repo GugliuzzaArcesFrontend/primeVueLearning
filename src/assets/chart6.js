@@ -1,4 +1,5 @@
 export default {
+    title: 'Fidelizzazione clienti',
     data: {
         labels: ['Nuovo', "Fidelizzato", "Vip"],
         datasets: [{

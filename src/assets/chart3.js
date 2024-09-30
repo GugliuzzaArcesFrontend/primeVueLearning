@@ -1,4 +1,5 @@
 export default{
+    title: 'Categorizzazione clienti',
     data : {
         labels: ['Condominii', 'Privati', 'Enti pubblici', 'Amministratori', 'Subappalti'],
         datasets: [{

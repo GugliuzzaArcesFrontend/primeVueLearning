@@ -1,6 +1,11 @@
 <template>
     <div class="dashboard">
-        <InfoRow/>
+        <Card class="summary">
+            <template #content>
+                <InfoRow />
+                <ShortcutsBar />
+            </template>
+        </Card>
         <section>
             <div class="row w-100 scroll-point">
                 <Card class="charting-card h-100" :class="{ 'w-66': innerWidth > innerHeight }">
@@ -8,8 +13,8 @@
                         <div class="custom-card h-100">
                             <Tabs scrollable :lazy="true" :value="0">
                                 <TabList>
-                                    <Tab v-for="(chart, i) in charts" :key="i" :id="`tab${i + 1}`" :value="i">Grafico {{
-                                        1 + i }}
+                                    <Tab v-for="(chart, i) in charts" :key="i" :id="`tab${i + 1}`" :value="i">{{
+                                        chart.title }}
                                     </Tab>
                                 </TabList>
 
@@ -29,14 +34,15 @@
                 <CheckList class="checklist-card">
                 </CheckList>
             </div>
+            <div class="w-100"></div>
             <div class="row w-100 scroll-point">
                 <Card class="charting-card h-100" :class="{ 'w-66': innerWidth > innerHeight }">
                     <template #content>
                         <div class="custom-card h-100">
                             <Tabs scrollable :lazy="true" :value="0">
                                 <TabList>
-                                    <Tab v-for="(chart, i) in charts" :key="i" :id="`tab${i + 1}`" :value="i">Grafico {{
-                                        1 + i }}
+                                    <Tab v-for="(chart, i) in charts" :key="i" :id="`tab${i + 1}`" :value="i">{{
+                                        chart.title }}
                                     </Tab>
                                 </TabList>
 
@@ -78,6 +84,7 @@ import TabPanels from 'primevue/tabpanels';
 
 import CheckList from './CheckList.vue';
 import InfoRow from './InfoRow.vue';
+import ShortcutsBar from './ShortcutsBar.vue';
 
 export default {
     name: 'DashBoard',
@@ -92,15 +99,16 @@ export default {
 
         CheckList,
         InfoRow,
+        ShortcutsBar,
     },
-    // inject: ['charts'],
+    //inject: ['boxes','charts'],
     data() {
         return {
             innerWidth: window.innerWidth,
             innerHeight: window.innerHeight,
             first: 0,
             chartsPerPage: 1,
-            charts: [chart1, chart2, chart3, chart5, chart6],
+            charts: [chart1, chart2, chart3, chart5, chart6, chart4],
         }
     },
     props: {
@@ -159,6 +167,10 @@ export default {
     margin: 0;
     margin-bottom: .5rem;
     padding: 0
+}
+
+.summary {
+
 }
 
 .charting-card {
