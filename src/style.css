@@ -28,6 +28,7 @@ body {
 
 .h-100 {
   height: 100%;
+  margin-bottom: .5rem;
 }
 
 .h-66 {
@@ -51,15 +52,17 @@ body {
 
 .w-66 {
   width: calc(66% - .5rem);
-  margin: .5rem;
+  margin-right: .5rem;
 }
 
 .w-50 {
   width: calc(50% - .5rem);
+  margin-right: .5rem;
 }
 
 .w-33 {
   width: calc(33% - .5rem);
+  margin-right: .5rem;
 }
 
 @media (orientation: portrait) {

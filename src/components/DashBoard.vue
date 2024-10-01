@@ -1,5 +1,5 @@
 <template>
-    <div class="dashboard">
+    <div class="dashboard w-100 h-100">
         <div class="summary">
             <InfoRow />
             <ShortcutsBar />
@@ -17,8 +17,10 @@
                                 </TabList>
 
                                 <TabPanels>
-                                    <TabPanel v-for="(chart, i) in charts" :key="i" :id="`chart${i + 1}`" :value="i">
-                                        <Chart class="custom-chart" :type="chart.type" :data="chart.data"
+                                    <TabPanel v-for="(chart, i) in charts" ref="panels" :key="i" :id="`chart${i + 1}`"
+                                        :value="i">
+                                        <Chart class="custom-chart " ref="paneledCharts" :type="chart.type"
+                                            :data="chart.data"
                                             :options="chart.options" />
                                     </TabPanel>
                                 </TabPanels>
@@ -26,14 +28,14 @@
                         </div>
                     </template>
                 </Card>
-                <Card class="charting-card h-100" :class="{ 'w-33': innerWidth > innerHeight }">
+                <Card class="charting-card" :class="{ 'w-33': innerWidth > innerHeight }">
                     <template #title>
                         {{ chart4.title }}
                     </template>
-                    <template class="h-100" #content>
-                        <div class="custom-card h-100">
-                            <Chart class="custom-chart" :height="canvasSize" :type="chart4.type" :data="chart4.data"
-                                :options="chart4.options" />
+                    <template #content>
+                        <div class="custom-card h-100 w-100">
+                            <Chart class="custom-chart " ref="sidechart"
+                                :type="chart4.type" :data="chart4.data" :options="chart4.options" />
                         </div>
                     </template>
                 </Card>
@@ -42,10 +44,23 @@
             </div>
 
             <div class="lower-table row h-100 scroll-point">
-                <div class="bbb w-50 h-50">tacci mia</div>
-                <div class="bbb w-50 h-50">tacci tua</div>
-                <div class="bbb w-50 h-50">tacci sua</div>
-                <div class="bbb w-50 h-50">tacci loro</div>
+                <div class="bbb w-66 h-50 " >
+                    <Chart class="custom-chart " ref="bbb1"
+                        :type="chart5.type" :data="chart5.data" :options="chart5.options" />
+                </div>
+                <div class="bbb w-33 h-50">
+                    <Chart class="custom-chart " ref="bbb2"
+                        :type="chart6.type" :data="chart6.data" :options="chart6.options" />
+                </div>
+                <div class="bbb w-50 h-50">
+                    <Chart ref="bbb3" class="custom-chart " 
+                        :type="chart1.type" :data="chart1.data" :options="chart1.options" />
+                </div>
+                <div class="bbb w-50 h-50">
+                    <Chart ref="bbb4" class="custom-chart "
+                        
+                        :type="chart2.type" :data="chart2.data" :options="chart2.options" />
+                </div>
             </div>
         </section>
     </div>
@@ -94,7 +109,17 @@ export default {
             first: 0,
             chartsPerPage: 1,
             charts: [chart1, chart2, chart3, chart5, chart6],
+            chart1: chart1,
+            chart2: chart2,
+            chart3: chart3,
             chart4: chart4,
+            chart5: chart5,
+            chart6: chart6,
+            canvasSize: {
+                type: Object,
+                default: { height: 200, width: 400 },
+                deep: true
+            }
         }
     },
     props: {
@@ -105,12 +130,14 @@ export default {
     },
     mounted() {
         this.windowSize();
-        window.addEventListener("resize", this.windowSize);
-        window.addEventListener("orientationchange", this.windowSize);
+        this.chartsRefresh();
+        window.addEventListener("resize", this.debouncedWindowResize);
+        window.addEventListener("resize", this.debouncedChartsRefresh);        
     },
+
     unmounted() {
-        window.removeEventListener("resize", this.windowSize);
-        window.removeEventListener("orientationchange", this.windowSize);
+        window.removeEventListener("resize", this.debouncedWindowResize);
+        window.removeEventListener("resize", this.debouncedChartsRefresh);
     },
     computed: {
         /* paginatedChart() {
@@ -123,23 +150,35 @@ export default {
                 return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink';
             else return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageInput CurrentPageReport';
         }, */
-        canvasSize() {
-            if (this.innerWidth <= 576)
-                return 150;
-            else if (this.innerWidth <= 1200 && this.innerWidth > 576)
-                return 200;
-            else return 300;
-        },
+
     },
 
     methods: {
+        debounce(func, wait) {
+            let timeout;
+            return function () {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func.apply(this, arguments);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        },
         onPageChange(event) {
             this.first = event.first;
         },
+
         windowSize() {
             this.innerWidth = window.innerWidth;
             this.innerHeight = window.innerHeight;
         },
+        debouncedWindowResize() { this.debounce(this.windowSize(), 200) },
+        chartsRefresh(){
+            let chartRefs=[...this.$refs.paneledCharts, this.$refs.sidechart, this.$refs.bbb1, this.$refs.bbb2, this.$refs.bbb3, this.$refs.bbb4];
+            chartRefs.map(chart => chart.reinit());
+        },
+        debouncedChartsRefresh() { this.debounce(this.chartsRefresh(), 200) },
     }
 }
 </script>
@@ -148,8 +187,6 @@ export default {
 .dashboard {
     /* border: solid 1px rgba(200, 200, 200, 0.5); */
     /* border-radius: 10px;  */
-    width: 100%;
-    height: 100%;
     margin: 0;
     margin-bottom: .5rem;
     padding: 0;
@@ -162,10 +199,11 @@ export default {
 }
 
 .charting-card {
-    height: auto;
-    align-content: stretch;
+    height: 95%;
+    /* align-content: stretch;
     align-items: stretch;
-    justify-content: space-between;
+    justify-content: space-between; */
+    margin: 0 .5rem;
 }
 
 .custom-card {
@@ -179,17 +217,18 @@ export default {
 .custom-chart {
     display: inline-block;
     width: 100%;
+    height: 97%;
     margin-bottom: .5rem;
-    /* align-self: stretch; */
+    align-self: center;
+    align-content: center;
+    align-items: center;
 }
 
 .lower-table {
-    border: solid 1px rgba(200, 200, 200, 0.5);
-    border-radius: 10px;
-    display: flex;
+    /* border: solid 1px rgba(200, 200, 200, 0.5);
+    border-radius: 10px; */
     flex-wrap: wrap;
     justify-content: space-between;
-    margin: 0 0 0 .5rem;
     padding: .5rem .5rem 0 .5rem;
 }
 
@@ -199,8 +238,9 @@ export default {
 }
 
 :deep(canvas) {
+    margin: auto;
     width: 97%;
-    height: auto;
+    height: 100%;
 }
 
 @media (orientation: landscape) {
@@ -217,8 +257,12 @@ export default {
 }
 
 @media (orientation: portrait) {
+    .charting-card {
+        margin-bottom: .5rem;
+    }
+
     .custom-chart {
-        width: 97%;
+        /* width: 97%; */
         height: 50vh;
     }
 
@@ -229,6 +273,11 @@ export default {
     .checklist-card {
         display: inline-block;
         width: 100%;
+    }
+
+    .bbb {
+        width: 100%;
+        height: 100%;
     }
 }
 </style>

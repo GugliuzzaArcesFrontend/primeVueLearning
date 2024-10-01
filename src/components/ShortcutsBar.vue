@@ -15,21 +15,25 @@ export default {
     components: {
         Card
     },
+
     props: {
         list: {
             type: Array,
             default: () => [{ name: "Link 1", href: "#" }, { name: "Link 2", href: "#" }, { name: "Link 3", href: "#" }, { name: "Link 4", href: "#" }, { name: "Link 5", href: "#" }, { name: "Link 6", href: "#" }, { name: "Link 7", href: "#" }, { name: "Link 8", href: "#" }, { name: "Link 9", href: "#" }, { name: "Link 10", href: "#" }]
         }
     },
+
     mounted() {
         this.updateRowHeight();
         window.addEventListener("resize", this.updateRowHeight);
         window.addEventListener("orientationchange", this.updateRowHeight);
     },
+
     unmounted() {
         window.removeEventListener("resize", this.updateRowHeight);
         window.removeEventListener("orientationchange", this.updateRowHeight);
     },
+    
     methods: {
         updateRowHeight() {
             const boxHeight = this.$refs.boxes[0].$el.offsetHeight;
@@ -38,6 +42,7 @@ export default {
     }
 }
 </script>
+
 <style scoped>
 .link-row {
     flex-direction: column;
