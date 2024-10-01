@@ -30,8 +30,15 @@ export default{
         scales: {
             y: {
                 beginAtZero: true,
+                max: 200
             },
         },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Media nazionale rapporto fatturato e stipendi',
+            }
+        }
     },
     type: 'line'
 } 

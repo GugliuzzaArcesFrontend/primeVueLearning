@@ -11,9 +11,7 @@
   text-align: center;
 }
 
-body {
-  margin: 0;
-  place-items: center;
+body {  
   width: 100vw;
   height: 100vh;  
 }
@@ -47,22 +45,19 @@ body {
 }
 
 .w-100 {
-  width: calc(100% - 1rem);
+  width: calc(100% - 1.5rem);
 }
 
 .w-66 {
   width: calc(66% - .5rem);
-  margin-right: .5rem;
 }
 
 .w-50 {
   width: calc(50% - .5rem);
-  margin-right: .5rem;
 }
 
 .w-33 {
   width: calc(33% - .5rem);
-  margin-right: .5rem;
 }
 
 @media (orientation: portrait) {

@@ -42,12 +42,19 @@ export default {
         scales: {
             y: {
                 // beginAtZero: true,
-                stacked: true
+                stacked: true,
+                max:200
             },
             x: {
                 stacked: true
             }
         },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Analitica fatture e costi (sede)',
+            }
+        }
     },
     type: 'line'
 }

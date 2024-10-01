@@ -173,12 +173,12 @@ export default {
             this.innerWidth = window.innerWidth;
             this.innerHeight = window.innerHeight;
         },
-        debouncedWindowResize() { this.debounce(this.windowSize(), 200) },
+        debouncedWindowResize() { this.debounce(this.windowSize(), 1000) },
         chartsRefresh(){
             let chartRefs=[...this.$refs.paneledCharts, this.$refs.sidechart, this.$refs.bbb1, this.$refs.bbb2, this.$refs.bbb3, this.$refs.bbb4];
             chartRefs.map(chart => chart.reinit());
         },
-        debouncedChartsRefresh() { this.debounce(this.chartsRefresh(), 200) },
+        debouncedChartsRefresh() { this.debounce(this.chartsRefresh(), 1500) },
     }
 }
 </script>
@@ -187,9 +187,7 @@ export default {
 .dashboard {
     /* border: solid 1px rgba(200, 200, 200, 0.5); */
     /* border-radius: 10px;  */
-    margin: 0;
     margin-bottom: .5rem;
-    padding: 0;
 }
 
 .summary {
@@ -216,8 +214,9 @@ export default {
 
 .custom-chart {
     display: inline-block;
-    width: 100%;
-    height: 97%;
+    width: 95%;
+    height: 95%;
+    margin:auto;
     margin-bottom: .5rem;
     align-self: center;
     align-content: center;
@@ -239,8 +238,8 @@ export default {
 
 :deep(canvas) {
     margin: auto;
-    width: 97%;
-    height: 100%;
+    width: 95%;
+    height: 95%;
 }
 
 @media (orientation: landscape) {

@@ -1,3 +1,5 @@
+import { plugins } from "chart.js";
+
 export default {
     title: 'Riepilogo pratiche',
     data: {
@@ -40,6 +42,12 @@ export default {
                 stacked: true,
             },
         },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Stato opportunità',
+            }
+        }
     },
     type: 'bar'
 }
