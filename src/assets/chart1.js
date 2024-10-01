@@ -52,7 +52,7 @@ export default {
         plugins: {
             title: {
                 display: true,
-                text: 'Analitica fatture e costi in migliaia di euro (sede)',
+                text: 'Analitica fatture e costi in migliaia di euro (Sede di competenza)',
             }
         }
     },
