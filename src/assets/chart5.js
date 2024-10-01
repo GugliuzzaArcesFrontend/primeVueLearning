@@ -8,24 +8,35 @@ export default {
             type: 'bar',
             label: ['Sopralluoghi'],
             data: [11, 15, 7, 12, 9],
-            backgroundColor: ['rgb(255,128,0'],
+            backgroundColor: ['rgba(255,128,0,.5)'],
             borderColor: [],
-            borderWidth: 1
+            borderWidth: 1,
+            yAxisID: 'y'
         },
         {
             type: 'bar',
             label: ['Preventivi'],
             data: [5, 8, 3, 6, 3],
-            backgroundColor: ['rgb(128,255,128'],
+            backgroundColor: ['rgba(128,255,128,.5)'],
             borderColor: [],
-            borderWidth: 1
+            borderWidth: 1,
+            yAxisID: 'y'
         }, {
             type: 'bar',
             label: ['Delibere'],
             data: [12, 7, 5, 9, 10],
-            backgroundColor: [],
+            backgroundColor: ['rgba(0,0,255,.5)'],
             borderColor: [],
-            borderWidth: 1
+            borderWidth: 1,
+            yAxisID: 'y'
+        }, {
+            type: 'line',
+            label: 'Deliberato',
+            data: [11500, 15750, 7800, 12100, 9550],
+            backgroundColor:['rgb(0,0,0)'],
+            borderColor: ['rgb(0,0,0)'],
+            borderWidth: 1,
+            yAxisID: 'y1',
         }
         ]
     },
@@ -41,6 +52,11 @@ export default {
                 beginAtZero: true,
                 stacked: true,
             },
+            y1: {
+                beginAtZero: false,
+                stacked: true,                
+                position: 'right',
+            }
         },
         plugins: {
             title: {

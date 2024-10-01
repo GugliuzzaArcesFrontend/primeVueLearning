@@ -25,6 +25,12 @@ export default{
     options: {
         maintainAspectRatio: false,
         responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Categorizzazione clienti',
+            }
+        }
     },
     type: 'pie'
 }

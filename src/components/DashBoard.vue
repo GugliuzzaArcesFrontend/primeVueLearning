@@ -12,7 +12,7 @@
                             <Tabs scrollable :lazy="true" :value="0">
                                 <TabList>
                                     <Tab v-for="(chart, i) in charts" :key="i" :id="`tab${i + 1}`" :value="i">{{
-                                        chart.title }}
+                                        chart.options.plugins.title.text }}
                                     </Tab>
                                 </TabList>
 
