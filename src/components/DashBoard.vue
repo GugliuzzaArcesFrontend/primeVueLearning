@@ -5,74 +5,12 @@
             <ShortcutsBar />
         </div>
         <section class="dashboard-section">
-            <div class="row h-100 scroll-point" v-if="true">
-                <Card class="charting-card h-100" :class="{ 'w-66': innerWidth > innerHeight }">
-                    <template #content>
-                        <div class="custom-card h-100">
-                            <Tabs scrollable :lazy="true" :value="0">
-                                <TabList>
-                                    <Tab v-for="(chart, i) in charts" :key="i" :id="`tab${i + 1}`" :value="i">{{
-                                        chart.options.plugins.title.text }}
-                                    </Tab>
-                                </TabList>
-
-                                <TabPanels>
-                                    <TabPanel v-for="(chart, i) in charts" ref="panels" :key="i" :id="`chart${i + 1}`"
-                                        :value="i">
-                                        <Chart class="custom-chart " ref="paneledCharts" :type="chart.type"
-                                            :data="chart.data" :options="chart.options" />
-                                    </TabPanel>
-                                </TabPanels>
-                            </Tabs>
-                        </div>
-                    </template>
-                </Card>
-                <Card class="charting-card" :class="{ 'w-33': innerWidth > innerHeight }">
-                    <template #title>
-                        {{ chart4.title }}
-                    </template>
-                    <template #content>
-                        <div class="custom-card h-100 w-100">
-                            <Chart class="custom-chart " ref="sidechart" :type="chart4.type" :data="chart4.data"
-                                :options="chart4.options" />
-                        </div>
-                    </template>
-                </Card>
-                <!-- <CheckList class="checklist-card">
-                </CheckList> -->
-            </div>
-
-            <DBoardSection :charts="charts" :chart-secondary="chart4"/>
-
-            <div class="lower-table row h-100 scroll-point">
-                <div class="bbb w-66 h-50 ">
-                    <Chart class="custom-chart " ref="bbb1" :type="chart5.type" :data="chart5.data"
-                        :options="chart5.options" />
-                </div>
-                <div class="bbb w-33 h-50">
-                    <Chart class="custom-chart " ref="bbb2" :type="chart6.type" :data="chart6.data"
-                        :options="chart6.options" />
-                </div>
-                <div class="bbb w-50 h-50">
-                    <Chart ref="bbb3" class="custom-chart " :type="chart1.type" :data="chart1.data"
-                        :options="chart1.options" />
-                </div>
-                <div class="bbb w-50 h-50">
-                    <Chart ref="bbb4" class="custom-chart " :type="chart2.type" :data="chart2.data"
-                        :options="chart2.options" />
-                </div>
-            </div>
+            <slot></slot>
         </section>
     </div>
 </template>
 
 <script>
-import chart1 from '../assets/chart1';
-import chart2 from '../assets/chart2';
-import chart3 from '../assets/chart3';
-import chart4 from '../assets/chart4';
-import chart5 from '../assets/chart5';
-import chart6 from '../assets/chart6';
 
 import Card from 'primevue/card';
 import Chart from 'primevue/chart';
@@ -87,6 +25,8 @@ import InfoRow from './InfoRow.vue';
 import ShortcutsBar from './ShortcutsBar.vue';
 
 import DBoardSection from './Dashboard/DBoardSection.vue';
+import DBoardSectionT2 from './Dashboard/DBoardSectionT2.vue';
+
 
 export default {
     name: 'DashBoard',
@@ -101,61 +41,32 @@ export default {
         CheckList,
         InfoRow,
         ShortcutsBar,
-        DBoardSection
+        DBoardSection,
+        DBoardSectionT2
     },
-    //inject: ['boxes','charts'],
     data() {
         return {
-            innerWidth: window.innerWidth,
-            innerHeight: window.innerHeight,
-            charts: [chart1, chart2, chart3, chart5, chart6],
-            chart1: chart1,
-            chart2: chart2,
-            chart3: chart3,
-            chart4: chart4,
-            chart5: chart5,
-            chart6: chart6,
         }
     },
     props: {
+        width: {
+            type: Number,
+            default: 0
+        },
+        height: {
+            type: Number,
+            default: 0
+        }
     },
     mounted() {
-        this.windowSize();
-        this.chartsRefresh();
-        window.addEventListener("resize", this.debouncedWindowResize);
-        window.addEventListener("resize", this.debouncedChartsRefresh);
     },
 
     unmounted() {
-        window.removeEventListener("resize", this.debouncedWindowResize);
-        window.removeEventListener("resize", this.debouncedChartsRefresh);
     },
     computed: {
     },
 
     methods: {
-        debounce(func, wait) {
-            let timeout;
-            return function () {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func.apply(this, arguments);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        },
-
-        windowSize() {
-            this.innerWidth = window.innerWidth;
-            this.innerHeight = window.innerHeight;
-        },
-        debouncedWindowResize() { this.debounce(this.windowSize(), 1000) },
-        chartsRefresh() {
-            let chartRefs = [...this.$refs.paneledCharts, this.$refs.sidechart, this.$refs.bbb1, this.$refs.bbb2, this.$refs.bbb3, this.$refs.bbb4];
-            chartRefs.map(chart => chart.reinit());
-        },
-        debouncedChartsRefresh() { this.debounce(this.chartsRefresh(), 1500) },
     }
 }
 </script>
@@ -267,5 +178,25 @@ export default {
         width: 100%;
         height: 100%;
     }
+}
+</style>
+<style>
+
+.h-66 {
+  height: calc(66% - .5rem);
+  margin-bottom: .5rem;
+}
+
+.h-33 {
+  height: calc(33% - .5rem);
+  margin-bottom: .5rem;
+}
+
+.w-66 {
+  width: calc(66% - .5rem);
+}
+
+.w-33 {
+  width: calc(33% - .5rem);
 }
 </style>

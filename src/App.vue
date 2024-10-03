@@ -1,5 +1,10 @@
 <template>
-  <DashBoard />
+  <DashBoard>
+
+    <DBoardSection :charts="charts" :chart-secondary="chart4" />
+    <DBoardSectionT2 :charts="charts" />
+
+  </DashBoard>
 </template>
 
 <script>
@@ -8,11 +13,15 @@ import infos from './assets/infos.json';
 import chart1 from './assets/chart1';
 import chart2 from './assets/chart2';
 import chart3 from './assets/chart3';
-// import chart4 from './assets/chart4';
+import chart4 from './assets/chart4';
 import chart5 from './assets/chart5';
 import chart6 from './assets/chart6';
 
+
 import DashBoard from './components/DashBoard.vue';
+import DBoardSection from './components/Dashboard/DBoardSection.vue';
+import DBoardSectionT2 from './components/Dashboard/DBoardSectionT2.vue';
+
 import Infobox from './components/Infobox.vue';
 import InfoRow from './components/InfoRow.vue';
 
@@ -20,6 +29,8 @@ export default {
   name: 'App',
   components: {
     DashBoard,
+    DBoardSection,
+    DBoardSectionT2,
     InfoRow,
     Infobox
   },
@@ -55,12 +66,12 @@ export default {
           "icon": "pi pi-envelope"
         }
       ],
-      infos: infos
+      infos: infos,
+      charts: [chart1, chart2, chart3,  chart4,  chart5, chart6],
     }
   },
   provide() {
     return {
-      charts: [chart1, chart2, chart3, /* chart4, */ chart5, chart6],
       boxes: this.boxes
     }
   },
@@ -68,5 +79,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

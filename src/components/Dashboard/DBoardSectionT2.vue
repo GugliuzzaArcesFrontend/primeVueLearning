@@ -1,37 +1,16 @@
 <template>
-    <div class="row h-100 scroll-point">
-        <Card class="charting-card h-100" :class="{ 'w-66': innerWidth > innerHeight }">
-            <template #content>
-                <div class="custom-card h-100">
-                    <Tabs scrollable :lazy="true" :value="0">
-                        <TabList>
-                            <Tab v-for="(chart, i) in charts" :key="i" :id="`tab${i + 1}`" :value="i">
-                                {{ chart.options.plugins.title.text }}
-                            </Tab>
-                        </TabList>
-
-                        <TabPanels>
-                            <TabPanel v-for="(chart, i) in charts" ref="panels" :key="i" :id="`chart${i + 1}`"
-                                :value="i">
-                                <Chart class="custom-chart " ref="paneledCharts" :type="chart.type" :data="chart.data"
-                                    :options="chart.options" />
-                            </TabPanel>
-                        </TabPanels>
-                    </Tabs>
-                </div>
-            </template>
-        </Card>
-        <Card class="charting-card" :class="{ 'w-33': innerWidth > innerHeight }">
-            <template #title>
-                {{ chart2.title }}
-            </template>
-            <template #content>
-                <div class="custom-card h-100 w-100">
-                    <Chart class="custom-chart " ref="sidechart" :type="chart2.type" :data="chart2.data"
-                        :options="chart2.options" />
-                </div>
-            </template>
-        </Card>
+    <div class="lower-table row h-100 scroll-point">
+        <DBVoid v-for="(chart, index) in chartClamped" :key="index">
+            <div class="bbb h-50 " 
+            :class="{ 
+                'w-66': index === 0, 
+                'w-33': index === 1, 
+                'w-50': index > 1, 
+                }">
+                <Chart class="custom-chart " :ref="`bbb${index + 1}`" :type="chart.type" :data="chart.data"
+                    :options="chart.options" />
+            </div>
+        </DBVoid>
     </div>
 </template>
 
@@ -43,11 +22,12 @@ import Tabs from 'primevue/tabs';
 import TabList from 'primevue/tablist';
 import TabPanel from 'primevue/tabpanel';
 import TabPanels from 'primevue/tabpanels';
-
+import DBVoid from './DBVoid.vue';
 
 export default {
-    name: "DBoardSection",
+    name: "DBoardSectionT2",
     components: {
+        DBVoid,
         Card,
         Chart,
         Tab,
@@ -62,14 +42,15 @@ export default {
             innerHeight: 10000,
         }
     },
+    computed:{
+        chartClamped(){
+            return this.charts.filter((chart, index) => index < 4)
+        }
+    },
     props: {
         charts: {
             type: Array,
             default: () => [],
-        },
-        chartSecondary: {
-            type: Object,
-            default: () => { },
         },
         width: {
             type: Number,
@@ -78,13 +59,6 @@ export default {
         height: {
             type: Number,
             default: 0
-        }
-    },
-    computed:{
-        chart2(){
-            if(this.chartSecondary) 
-                return this.chartSecondary;
-            return this.charts[1];
         }
     },
     methods: {
@@ -111,7 +85,7 @@ export default {
         },
         debouncedWindowResize() { this.debounce(this.windowSize(), 1000) },
         chartsRefresh() {
-            let chartRefs = [...this.$refs.paneledCharts, this.$refs.sidechart];
+            let chartRefs = [this.$refs.bbb1, this.$refs.bbb2, this.$refs.bbb3, this.$refs.bbb4].flat();
             chartRefs.map(chart => chart.reinit());
         },
         debouncedChartsRefresh() { this.debounce(this.chartsRefresh(), 1500) },
@@ -132,6 +106,16 @@ export default {
 
 <style scoped>
 
+.lower-table {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: .5rem .5rem 0 .5rem;
+}
+
+.bbb {
+    border: solid 1px rgba(200, 200, 200, 0.5);
+    border-radius: 10px;
+}
 @media (orientation: landscape) {
     .scroll-point {
         scroll-snap-align: start;
@@ -178,6 +162,11 @@ export default {
     .checklist-card {
         display: inline-block;
         width: 100%;
+    }
+
+    .bbb {
+        width: 100%;
+        height: 100%;
     }
 }
 </style>
