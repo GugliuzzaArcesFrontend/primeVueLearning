@@ -74,6 +74,45 @@ a {
     color: inherit;
 }
 
+.link-row::-webkit-scrollbar {
+    /* display: none; */
+    width: 0; /* Nasconde lo scroll verticale */
+    height: 8px; /* Imposta la larghezza della scrollbar orizzontale */
+}
+/* Personalizza il pollice della scrollbar orizzontale */
+.link-row::-webkit-scrollbar-thumb {
+    background-color: #888; /* Colore della barra di scorrimento */
+    border-radius: 4px; /* Arrotonda gli angoli del pollice */
+}
+
+/* Personalizza il binario della scrollbar orizzontale */
+.link-row::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Colore di sfondo del binario */
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.link-row::-ms-scrollbar {
+    display: none; /* Nasconde la scrollbar in IE e Edge */
+}
+/* Modifiche per Firefox */
+.link-row-scroll {
+    scrollbar-width: thin; /* Riduce lo spessore della scrollbar */
+    scrollbar-color: #888 #f1f1f1; /* Colore del pollice e del binario */
+    overflow-y: hidden; /* Nasconde lo scroll verticale */
+}
+
+/* Nascondi completamente lo scroll verticale in tutti i browser */
+.link-row-scroll {
+    overflow-x: scroll;
+    overflow-y: hidden; /* Nasconde lo scroll verticale */
+}
+
+/* Modifiche per Internet Explorer e Edge Legacy */
+.link-row-scroll {
+    -ms-overflow-style: none; /* Nasconde la scrollbar in IE e Edge */
+}
+
+
 @media (max-width:1024px) {
     .link-row {
         flex-direction: column;
