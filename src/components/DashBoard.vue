@@ -4,8 +4,8 @@
             <InfoRow />
             <ShortcutsBar />
         </div>
-        <section>
-            <div class="row h-100 scroll-point">
+        <section class="dashboard-section">
+            <div class="row h-100 scroll-point" v-if="true">
                 <Card class="charting-card h-100" :class="{ 'w-66': innerWidth > innerHeight }">
                     <template #content>
                         <div class="custom-card h-100">
@@ -20,8 +20,7 @@
                                     <TabPanel v-for="(chart, i) in charts" ref="panels" :key="i" :id="`chart${i + 1}`"
                                         :value="i">
                                         <Chart class="custom-chart " ref="paneledCharts" :type="chart.type"
-                                            :data="chart.data"
-                                            :options="chart.options" />
+                                            :data="chart.data" :options="chart.options" />
                                     </TabPanel>
                                 </TabPanels>
                             </Tabs>
@@ -34,8 +33,8 @@
                     </template>
                     <template #content>
                         <div class="custom-card h-100 w-100">
-                            <Chart class="custom-chart " ref="sidechart"
-                                :type="chart4.type" :data="chart4.data" :options="chart4.options" />
+                            <Chart class="custom-chart " ref="sidechart" :type="chart4.type" :data="chart4.data"
+                                :options="chart4.options" />
                         </div>
                     </template>
                 </Card>
@@ -43,23 +42,24 @@
                 </CheckList> -->
             </div>
 
+            <DBoardSection :charts="charts" :chart-secondary="chart4"/>
+
             <div class="lower-table row h-100 scroll-point">
-                <div class="bbb w-66 h-50 " >
-                    <Chart class="custom-chart " ref="bbb1"
-                        :type="chart5.type" :data="chart5.data" :options="chart5.options" />
+                <div class="bbb w-66 h-50 ">
+                    <Chart class="custom-chart " ref="bbb1" :type="chart5.type" :data="chart5.data"
+                        :options="chart5.options" />
                 </div>
                 <div class="bbb w-33 h-50">
-                    <Chart class="custom-chart " ref="bbb2"
-                        :type="chart6.type" :data="chart6.data" :options="chart6.options" />
+                    <Chart class="custom-chart " ref="bbb2" :type="chart6.type" :data="chart6.data"
+                        :options="chart6.options" />
                 </div>
                 <div class="bbb w-50 h-50">
-                    <Chart ref="bbb3" class="custom-chart " 
-                        :type="chart1.type" :data="chart1.data" :options="chart1.options" />
+                    <Chart ref="bbb3" class="custom-chart " :type="chart1.type" :data="chart1.data"
+                        :options="chart1.options" />
                 </div>
                 <div class="bbb w-50 h-50">
-                    <Chart ref="bbb4" class="custom-chart "
-                        
-                        :type="chart2.type" :data="chart2.data" :options="chart2.options" />
+                    <Chart ref="bbb4" class="custom-chart " :type="chart2.type" :data="chart2.data"
+                        :options="chart2.options" />
                 </div>
             </div>
         </section>
@@ -86,6 +86,8 @@ import CheckList from './CheckList.vue';
 import InfoRow from './InfoRow.vue';
 import ShortcutsBar from './ShortcutsBar.vue';
 
+import DBoardSection from './Dashboard/DBoardSection.vue';
+
 export default {
     name: 'DashBoard',
     components: {
@@ -96,18 +98,16 @@ export default {
         TabList,
         TabPanel,
         TabPanels,
-
         CheckList,
         InfoRow,
         ShortcutsBar,
+        DBoardSection
     },
     //inject: ['boxes','charts'],
     data() {
         return {
             innerWidth: window.innerWidth,
             innerHeight: window.innerHeight,
-            first: 0,
-            chartsPerPage: 1,
             charts: [chart1, chart2, chart3, chart5, chart6],
             chart1: chart1,
             chart2: chart2,
@@ -115,24 +115,15 @@ export default {
             chart4: chart4,
             chart5: chart5,
             chart6: chart6,
-            canvasSize: {
-                type: Object,
-                default: { height: 200, width: 400 },
-                deep: true
-            }
         }
     },
     props: {
-        /* charts: {
-            type: Array,
-            default: () => [chart1, chart2, chart3, chart5, chart6],
-        } */
     },
     mounted() {
         this.windowSize();
         this.chartsRefresh();
         window.addEventListener("resize", this.debouncedWindowResize);
-        window.addEventListener("resize", this.debouncedChartsRefresh);        
+        window.addEventListener("resize", this.debouncedChartsRefresh);
     },
 
     unmounted() {
@@ -140,17 +131,6 @@ export default {
         window.removeEventListener("resize", this.debouncedChartsRefresh);
     },
     computed: {
-        /* paginatedChart() {
-            return this.charts.slice(this.first, this.first + this.chartsPerPage);
-        },
-        paginatorTemplate() {
-            if (this.innerWidth <= 576)
-                return 'PrevPageLink JumpToPageInput CurrentPageReport NextPageLink';
-            else if (this.innerWidth <= 1200 && this.innerWidth > 576)
-                return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink';
-            else return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageInput CurrentPageReport';
-        }, */
-
     },
 
     methods: {
@@ -165,17 +145,14 @@ export default {
                 timeout = setTimeout(later, wait);
             };
         },
-        onPageChange(event) {
-            this.first = event.first;
-        },
 
         windowSize() {
             this.innerWidth = window.innerWidth;
             this.innerHeight = window.innerHeight;
         },
         debouncedWindowResize() { this.debounce(this.windowSize(), 1000) },
-        chartsRefresh(){
-            let chartRefs=[...this.$refs.paneledCharts, this.$refs.sidechart, this.$refs.bbb1, this.$refs.bbb2, this.$refs.bbb3, this.$refs.bbb4];
+        chartsRefresh() {
+            let chartRefs = [...this.$refs.paneledCharts, this.$refs.sidechart, this.$refs.bbb1, this.$refs.bbb2, this.$refs.bbb3, this.$refs.bbb4];
             chartRefs.map(chart => chart.reinit());
         },
         debouncedChartsRefresh() { this.debounce(this.chartsRefresh(), 1500) },
@@ -198,9 +175,6 @@ export default {
 
 .charting-card {
     height: 95%;
-    /* align-content: stretch;
-    align-items: stretch;
-    justify-content: space-between; */
     margin: 0 .5rem;
 }
 
@@ -216,7 +190,7 @@ export default {
     display: inline-block;
     width: 95%;
     height: 95%;
-    margin:auto;
+    margin: auto;
     margin-bottom: .5rem;
     align-self: center;
     align-content: center;
@@ -243,7 +217,7 @@ export default {
 }
 
 @media (orientation: landscape) {
-    section {
+    .dashboard-section {
         scroll-snap-type: y mandatory;
         overflow-y: auto;
         height: 75%;
@@ -253,6 +227,21 @@ export default {
         scroll-snap-align: start;
         scroll-snap-stop: always;
     }
+}
+
+/* hide scrollbar */
+/* Hide scrollbar for Chrome, Safari and Opera */
+.dashboard-section::-webkit-scrollbar {
+    display: none;
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.dashboard-section {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 @media (orientation: portrait) {
