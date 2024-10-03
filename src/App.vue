@@ -1,9 +1,15 @@
 <template>
   <DashBoard>
-
-    <DBoardSection :charts="charts" :chart-secondary="chart4" />
-    <DBoardSectionT2 :charts="charts" />
-
+    <template #InfoRow>
+      <DBInfoRow :boxes="boxes" />
+    </template>
+    <template #ShortcutsBar>
+      <DBShortcutsBar  />
+    </template>
+    <template #section>
+      <DBoardSection :charts="charts" :chart-secondary="chart4" />
+      <DBoardSectionT2 :charts="charts" />
+    </template>
   </DashBoard>
 </template>
 
@@ -21,9 +27,10 @@ import chart6 from './assets/chart6';
 import DashBoard from './components/DashBoard.vue';
 import DBoardSection from './components/Dashboard/DBoardSection.vue';
 import DBoardSectionT2 from './components/Dashboard/DBoardSectionT2.vue';
+import DBInfoRow from './components/Dashboard/DBInfoRow.vue';
+import DBShortcutsBar from './components/Dashboard/DBShortcutsBar.vue';
 
 import Infobox from './components/Infobox.vue';
-import InfoRow from './components/InfoRow.vue';
 
 export default {
   name: 'App',
@@ -31,7 +38,8 @@ export default {
     DashBoard,
     DBoardSection,
     DBoardSectionT2,
-    InfoRow,
+    DBInfoRow,
+    DBShortcutsBar,
     Infobox
   },
   data() {
@@ -67,14 +75,14 @@ export default {
         }
       ],
       infos: infos,
-      charts: [chart1, chart2, chart3,  chart4,  chart5, chart6],
+      charts: [chart1, chart2, chart3, chart4, chart5, chart6],
     }
   },
-  provide() {
-    return {
-      boxes: this.boxes
-    }
-  },
+  // provide() {
+  //   return {
+  //     boxes: this.boxes
+  //   }
+  // },
   methods: {}
 }
 </script>

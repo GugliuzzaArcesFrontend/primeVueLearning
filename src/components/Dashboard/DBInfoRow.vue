@@ -8,20 +8,19 @@
 <script>
 
 import Card from 'primevue/card';
-import InfoBox from './Infobox.vue';
-import SmallBox from './SmallBox.vue';
+import SmallBox from '../SmallBox.vue';
 
 export default {
-    name: "InfoRow",
+    name: "DBInfoRow",
     components: {
         Card,
-        InfoBox,
         SmallBox,
     },
-    inject: ['boxes'],
-    data() {
-        return {
-            data: this.boxes
+    // inject: ['boxes'],
+    props: {
+        boxes: {
+            type: Array,
+            default: () => []
         }
     },
     mounted() {

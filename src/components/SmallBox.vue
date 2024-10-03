@@ -11,11 +11,13 @@
             </div>
         </div>
 
-        <div class="box-footer">
-            <a :href="linkAddress">
-                {{ linkDescription }} <i :class="linkIcon"></i>
-            </a>
-        </div class="box-footer">
+        <a :href="linkAddress" class="small-box-footer box-footer"
+            @click.prevent="$emit('OnSmallBoxClick', linkAddress, link)">
+            {{ linkDescription }} <i :class="linkIcon"></i>
+        </a>
+        <div v-if=isLoading class="overlay"><!-- segnaposto per grafica e condizione di attesa/caricamento -->
+            <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+        </div>
     </div>
 </template>
 
@@ -24,6 +26,7 @@ export default {
     name: "SmallBox",
     data() {
         return {
+            isLoading: false
         }
     },
     props: {
@@ -37,15 +40,15 @@ export default {
         },
         color: {
             type: String,
-            default: "secondary" //trovare classi utility colore prime
+            default: "bg-primary"
         },
         sizes: {
             type: [String, Number, Array],
-            default: ""
+            default: "col-6"
         },
         icon: {
             type: String,
-            default: "pi pi-envelope"
+            default: "fas fa-envelope"
         },
         iconColor: {
             type: String,
@@ -61,14 +64,14 @@ export default {
         },
         linkIcon: {
             type: String,
-            default: "pi pi-arrow-right"
+            default: "fas fa-arrow-circle-right"
         }
     },
     computed: {
         sizeClass() {
-            if (Array.isArray(this.sizes)) return this.sizes.lenght?this.sizes.map(size => "col-" + size).join(" "):"col";
-            else if (typeof this.sizes === "string" || typeof this.sizes === "number") return "col-" + this.sizes;
-            else return "col";
+            if (typeof this.sizes === 'object') return this.sizes.map(size => "col-" + size).join(" ")
+            else if (typeof this.sizes === "string" || typeof this.sizes === "number") return "col-" + this.sizes
+            else return "col"
         },
     },
 }
@@ -86,7 +89,7 @@ export default {
 .box-body {
     width: 100%;
     padding: 5px;
-    padding-bottom:0;
+    padding-bottom: 0;
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
@@ -98,9 +101,9 @@ export default {
     text-align: center;
 }
 
-.icon{
-padding-right:5%;
-width: 20%;
+.icon {
+    padding-right: 5%;
+    width: 20%;
 }
 
 .icon>i {
@@ -110,11 +113,11 @@ width: 20%;
 
 .box-footer {
     border-top: solid 1px rgba(200, 200, 200, 0.5);
-    display: block;    
-    min-height: 20%;    
+    display: block;
+    min-height: 20%;
 }
 
-a{
+a {
     text-decoration: none;
     color: inherit;
 }

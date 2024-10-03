@@ -1,11 +1,11 @@
 <template>
     <div class="dashboard w-100 h-100">
         <div class="summary">
-            <InfoRow />
-            <ShortcutsBar />
+            <slot name="InfoRow"></slot>
+            <slot name="ShortcutsBar"></slot>
         </div>
         <section class="dashboard-section">
-            <slot></slot>
+            <slot name="section"></slot>
         </section>
     </div>
 </template>
@@ -21,8 +21,6 @@ import TabPanel from 'primevue/tabpanel';
 import TabPanels from 'primevue/tabpanels';
 
 import CheckList from './CheckList.vue';
-import InfoRow from './InfoRow.vue';
-import ShortcutsBar from './ShortcutsBar.vue';
 
 import DBoardSection from './Dashboard/DBoardSection.vue';
 import DBoardSectionT2 from './Dashboard/DBoardSectionT2.vue';
@@ -39,8 +37,6 @@ export default {
         TabPanel,
         TabPanels,
         CheckList,
-        InfoRow,
-        ShortcutsBar,
         DBoardSection,
         DBoardSectionT2
     },
